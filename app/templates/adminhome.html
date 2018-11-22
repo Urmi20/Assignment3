@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block content %}
+<ul class="header" id="myHeader">
+    <li><h1 style="color:white;">Under the hood</h1></li>
+    <li style="float:right;"><a href="{{url_for('sign_out')}}">Sign out</a></li>
+</ul>
+
+<span>Current mode: <b>{{ mode }}</b></span><br><br>
+
+{% for err in error%}
+<span style="color:red;">{{ err }}</span><br/>
+{% endfor %}
+
+<ul style="list-style: none; padding-left: 0;">
+    <li style="float:left;">
+        <form method="post" action="add_worker"
+              {% if mode == 'auto' %}
+              onsubmit="return confirm('This action will also set the scaling control to MANUAL.');"
+              {% endif %} >
+            <input type="submit" value="Add worker"/>
+        </form>
+    </li>
+
+    <li style="float:left;">
+        <form method="post" action="sub_worker"
+              {% if mode == 'auto' %}
+              onsubmit="return confirm('This action will also set the scaling control to MANUAL.');"
+              {% endif %} >
+            <input type="submit" value="Remove worker" id="remove_worker"/>
+        </form>
+    </li>
+
+    {% if length <= 1 %}
+    <script>
+    document.getElementById("remove_worker").disabled = true;
+    </script>
+    {% endif %}
+</ul>
+
+<br/>
+
+<form method="post" action="size_scaling"
+      {% if mode == 'manual' %}
+      onsubmit="return confirm('This action will also set the scaling control to AUTOMATIC.');"
+      {% endif %}>
+    <table>
+        <tr>
+            <td>
+                Scale up load:
+                <input type="number" name="uth" value="{{uth if uth!=None}}"
+                           min="1" max="100" class="textbox"/>
+            </td>
+            <td>
+                Scale down load:
+                <input type="number" name="dth" value="{{dth if dth!=None}}"
+                           min="1" max="100" class="textbox"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Expand ratio:
+                <input type="number" name="ex_ratio" value="{{ex_ratio if ex_ratio!=None}}"
+                           min="1" max="100" class="textbox"/>
+            </td>
+            <td>
+                Shrink ratio:
+                <input type="number" name="s_ratio" value="{{s_ratio if s_ratio!=None}}"
+                           min="1" max="100" class="textbox"/>
+            </td>
+
+
+            <td>
+                    <input type="submit" value="Apply"/>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<br/>
+<br/>
+
+<h2>CPU Uses -</h2>
+<input type="button" value="Refresh Plots" onClick="window.location.reload()">
+<br/>
+<br/>
+
+{% for index in range(length) %}
+Instance-ID - {{ instance_list[index] }}
+<div id="cpu_{{ index }}" style="width:300px;height:150px"></div>
+<br/>
+
+    <script>
+      var options = {
+        series: {
+            lines: {show: true},
+            points: {show: true}
+           }
+          };
+
+          $.plot($("#cpu_{{ index }}"), [ {{ cpu_stats[index] }} ], options);
+    </script>
+{% endfor %}
+<br/>
+
+<form method="post" action="delete_all"
+      onsubmit="return confirm('Are you sure you want to delete ALL USER DATA AND IMAGES?');">
+    <input type="submit" value="Delete all data"/>
+</form>
+<br/>
+<br/>
+
+{% endblock %}
