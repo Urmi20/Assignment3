@@ -11,7 +11,7 @@ def index():
     if 'authorized' in session and session['authorized'] is True:
         return redirect(url_for("render_main_issue_list"))
 
-    return render_template("index.html", type="user")
+    return render_template("index.html")
 
 
 def create_session_for(username, password):
@@ -32,4 +32,4 @@ def authenticate_user():
     if create_session_for(username, password):
         return redirect(url_for('render_main_issue_list'))
 
-    return render_template("index.html", error=True, username=username, type="user")
+    return render_template("index.html", error=True, username=username)

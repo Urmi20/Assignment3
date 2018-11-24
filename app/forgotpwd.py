@@ -4,7 +4,6 @@ from app.tools.email import Email
 from app.tools.dbTools import DataBaseManager
 from app.tools import validate
 from app.tools.hashTools import Hash
-import os
 
 
 @IssueTracker.route("/forgotpwd")

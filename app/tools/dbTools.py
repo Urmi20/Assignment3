@@ -126,3 +126,103 @@ class DataBaseManager:
         except:
             return None
         return user_email
+
+    @staticmethod
+    def get_projects():
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_projects'
+
+        table = dynamodb.Table(table_name)
+
+        response = table.scan()
+
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(
+                ExclusiveStartKey=response['LastEvaluatedKey']
+            )
+
+        items = response['Items']
+
+        projects = list()
+        for item in items:
+            projects.append(item.get('name'))
+
+        return projects
+
+    @staticmethod
+    def add_project(project_name):
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_projects'
+
+        table = dynamodb.Table(table_name)
+
+        table.put_item(
+            Item={
+                'name': project_name,
+            }
+        )
+
+        return True
+
+    @staticmethod
+    def get_documents_for(selected_project):
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_documents'
+
+        table = dynamodb.Table(table_name)
+
+        response = table.scan(
+            FilterExpression=Key('project').eq(selected_project),
+        )
+
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(
+                FilterExpression=Key('project').eq(selected_project),
+                ExclusiveStartKey=response['LastEvaluatedKey']
+            )
+
+        items = response['Items']
+
+        documents = list()
+        for item in items:
+            documents.append(item.get('code'))
+
+        return documents
+
+    @staticmethod
+    def add_document(project, document):
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_documents'
+
+        table = dynamodb.Table(table_name)
+
+        table.put_item(
+            Item={
+                'code': document,
+                'project': project
+            }
+        )
+
+        return True
+
+    @staticmethod
+    def get_disciplines():
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_disciplines'
+
+        table = dynamodb.Table(table_name)
+
+        response = table.scan()
+
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(
+                ExclusiveStartKey=response['LastEvaluatedKey']
+            )
+
+        items = response['Items']
+
+        disciplines = list()
+        for item in items:
+            disciplines.append(item.get('name'))
+
+        return disciplines
