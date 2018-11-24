@@ -65,8 +65,12 @@ class DataBaseManager:
             }
         )
 
-        item = response['Item']
+        try:
+            item = response['Item']
+        except Exception as exception:
+            item = list()
 
+        salt = pw_hash = ''
         if item:
             salt, pw_hash = DataBaseManager.split_salt_hash(item.get('password'))
 
