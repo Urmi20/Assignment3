@@ -4,6 +4,7 @@ from app.tools.email import Email
 from app.tools.dbTools import DataBaseManager
 from app.tools import validate
 from app.tools.hashTools import Hash
+import os
 
 
 @IssueTracker.route("/forgotpwd")
@@ -24,12 +25,12 @@ def recovery_submit():
     if email_success:
 
         token = DataBaseManager.get_token(recipient, 60)
-        user = email_success
-        email = Email("smtp.gmail.com", 587, "ece1779.project.fall.2018", "aSd123qWe456zxc")
-        email.send("ece1779.project.fall.2018@gmail.com", recipient, "Password Recovery",
-                   '''Hi {},\n\n
-                       visit the following link to reset your password - 
-                       {}'''.format(user[0][0], url_for('reset_token', token=token, _external=True)))
+        Email.send("ece1779.project.fall.2018@gmail.com", recipient, "Password Recovery",
+                   '''Hi,\n\n
+                       visit the following link to reset your password -
+                       {}'''.format(url_for('reset_token', token=token, _external=True)),
+                   "smtp.gmail.com", 587, "ece1779.project.fall.2018", "wmbuvijletllgypz")
+        #"aSd123qWe456zxc"
 
         return render_template("index.html")
     else:
@@ -69,5 +70,4 @@ def change_pwd(token):
 
     dbm.update_new_password(stored_pwd, user_email)
 
-    return redirect(url_for('render_gallery'))
-
+    return redirect(url_for('render_main_issue_list'))

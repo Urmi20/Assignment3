@@ -9,7 +9,7 @@ IssueTracker.secret_key = "SecretUserUI##187782####"
 @IssueTracker.route("/", methods=['GET'])
 def index():
     if 'authorized' in session and session['authorized'] is True:
-        return redirect(url_for("render_gallery"))
+        return redirect(url_for("render_main_issue_list"))
 
     return render_template("index.html", type="user")
 
@@ -19,9 +19,6 @@ def create_session_for(username, password):
     if pwd_manager.check_password(username, password):
         session['user'] = username
         session['authorized'] = True
-
-        dbm = DataBaseManager()
-        session['type'] = dbm.get_user_type(username)
 
         return True
     return False
@@ -33,6 +30,6 @@ def authenticate_user():
     password = request.form.get('password')
 
     if create_session_for(username, password):
-        return redirect(url_for('render_gallery'))
+        return redirect(url_for('render_main_issue_list'))
 
     return render_template("index.html", error=True, username=username, type="user")
