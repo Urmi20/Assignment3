@@ -5,5 +5,9 @@
     <li style="float:right;"><a href="{{url_for('sign_out')}}">Sign out</a></li>
     <li style="float:right;"><a href="{{url_for('new_issue_landing')}}">New issue</a></li>
 </ul>
+
+<form method="post" action="export_to_pdf">
+    <input type="submit" class="button" value="Gimme PDF!"/>
+</form>
 <h1>Everything is fine so far!</h1>
 {% endblock %}
