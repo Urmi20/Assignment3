@@ -7,6 +7,10 @@
 </ul>
 </br>
 
+{% if not db_success %}
+<span style="color:red;">Something went wrong wile recording the last issue. Please try again.</span><br/></br>
+{% endif %}
+
 Select a project:
 <form method="post" action="new_issue_landing">
     <input type="text" name="project" list="projects" autocomplete=off onchange="this.form.submit()"
@@ -41,6 +45,11 @@ Select a document:
 Select a discipline:
 <form method="post" action="new_issue_landing">
     <select name="discipline" onchange="this.form.submit()">
+        {% if selected_discipline %}
+        <option select="selected">{{selected_discipline}}</option>
+        {% else %}
+        <option disabled selected value> -- Select a discipline -- </option>
+        {% endif %}
         {% for discipline in disciplines %}
         <option value="{{discipline}}">{{discipline}}</option>
         {% endfor %}
@@ -56,9 +65,7 @@ Select a discipline:
 </br>
 </br>
 <form method="post" action="new_issue_landing" id="input_issue">
-    <textarea rows="10" cols="100" name="issue">
-    Enter issue description...
-    </textarea>
+    <textarea rows="5" cols="70" name="issue" placeholder="Enter issue description..."></textarea>
     <input type="hidden" id="project" name="project" value="{{selected_project}}">
     <input type="hidden" id="document" name ="document" value="{{selected_document}}">
     <input type="hidden" id="discipline" name ="discipline" value="{{selected_discipline}}">
@@ -67,11 +74,11 @@ Select a discipline:
 </form>
 {% endif %}
 
-{% if selected_project and selected_document and selected_discipline and issues_so_far %}
-    Issues input so far:</br>
-    {% autoescape false %}
-    {{issues_so_far | replace("|", "</br>")}}
-    {% endautoescape %}
+{% if issues_so_far %}
+</br>Issues input so far:</br>
+<textarea readonly rows="5" cols="70" name="issues_so_far_text">
+{{issues_so_far}}
+</textarea>
 {% endif %}
 
 {% endblock %}

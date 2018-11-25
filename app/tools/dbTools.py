@@ -45,7 +45,10 @@ class DataBaseManager:
                 ExclusiveStartKey=response['LastEvaluatedKey']
             )
 
-        item = response['Items']
+        try:
+            item = response['Items']
+        except Exception as exception:
+            item = list()
 
         if not item:
             return False
@@ -145,7 +148,10 @@ class DataBaseManager:
                 ExclusiveStartKey=response['LastEvaluatedKey']
             )
 
-        items = response['Items']
+        try:
+            items = response['Items']
+        except Exception as exception:
+            items = list()
 
         projects = list()
         for item in items:
@@ -185,7 +191,10 @@ class DataBaseManager:
                 ExclusiveStartKey=response['LastEvaluatedKey']
             )
 
-        items = response['Items']
+        try:
+            items = response['Items']
+        except Exception as exception:
+            items = list()
 
         documents = list()
         for item in items:
@@ -223,10 +232,65 @@ class DataBaseManager:
                 ExclusiveStartKey=response['LastEvaluatedKey']
             )
 
-        items = response['Items']
+        try:
+            items = response['Items']
+        except Exception as exception:
+            items = list()
 
         disciplines = list()
         for item in items:
             disciplines.append(item.get('name'))
 
         return disciplines
+
+    @staticmethod
+    def add_issue(project, document, discipline,issue, date_time, id):
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_issues'
+
+        table = dynamodb.Table(table_name)
+
+        try:
+            table.put_item(
+                Item={
+                    'id': id,
+                    'project': project,
+                    'document': document,
+                    'status': "Open",
+                    'date_added': date_time,
+                    'discipline': discipline,
+                    'description': issue
+                },
+                ConditionExpression='attribute_not_exists(id)'
+            )
+
+        except Exception as exception:
+            return False
+
+        return True
+
+    @staticmethod
+    def get_issues():
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_issues'
+
+        table = dynamodb.Table(table_name)
+
+        response = table.scan()
+
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(
+                ExclusiveStartKey=response['LastEvaluatedKey']
+            )
+
+        try:
+            items = response['Items']
+        except Exception as exception:
+            items = list()
+
+        issues = list()
+        for item in items:
+            issues.append(item)
+
+        return issues
+
