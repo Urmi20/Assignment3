@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<ul class="header" id="myHeader">
+    <li><h1 style="color:white;">Projects' Issues</h1></li>
+    <li style="float:right;"><a href="{{url_for('sign_out')}}">Sign out</a></li>
+    <li style="float:right;"><a href="{{url_for('new_issue_landing')}}">New issue</a></li>
+</ul>
+<h1>Everything is fine so far!</h1>
+{% endblock %}

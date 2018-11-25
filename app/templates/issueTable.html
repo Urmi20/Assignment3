@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+	<table border="4">
+		
+			<tr>
+			<td>ID</td>
+			<td>PROJECTS</td>
+			<td>DOCUMENT</td>
+			<td>STATUS</td>
+			<td>DATE_AODE</td>
+			<td>ENGINEERING SUBJECT</td>
+			<td>ISSUE</td>
+			</tr>
+			<% 
+				while(rs.next())
+				{
+				%>
+				<tr>
+					<td>
+								
+						<%=rs.getString(1)%>
+					</td>
+					<td>
+						<%=rs.getString(2)%>
+					</td>
+					<td>
+						<%=rs.getString(3)%>
+					</td>
+					<td>
+						<a href="delete.jsp?id=<%= rs.getInt("ID") %>" ><input type="button" name="but" value="Delete"></a>
+					</td>
+				 </tr>
+				<%
+				}
+				%>
+		</table>
+
+</body>
+</html>

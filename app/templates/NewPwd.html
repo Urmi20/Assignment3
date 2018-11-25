@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
+<ul class="header">
+    <li><h1>IK</h1></li>
+</ul>
+
 <form method="post" action="{{ url_for('change_pwd', token=token) }}">
-    <legend class="text-center" style="margin-top:40px;"><h1>InstaKilo</h1></legend>
+    <legend class="text-center" style="margin-top:40px;"><h1>Issue Tracker</h1></legend>
 
     {% if session== True %}
     <div class="text-center forms container">

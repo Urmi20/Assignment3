@@ -45,17 +45,17 @@ def create_user():
     salt, hashpwd = pwd_manager.get_salt_hash(password)
     stored_pwd = "$" + salt + "$" + hashpwd.decode("utf-8")
 
-    dbm = DataBaseManager()
-    email_already_registered = dbm.email_already_exists(email)
+    email_already_registered = DataBaseManager.email_already_exists(email)
 
     if not email_already_registered:
-        db_success = dbm.add_user(username, first_name, last_name, email, stored_pwd)
+        # Add
+        db_success = DataBaseManager.add_user(username, first_name, last_name, email, stored_pwd)
 
         if db_success:
             session['user'] = username
             session['authorized'] = True
 
-            return redirect(url_for('render_gallery'))
+            return redirect(url_for('render_main_issue_list'))
         else:
             # Getting here means that either there was a database  error or the username is already taken.
             # Since the user will have to retry anyways, we might as well say there was an error with the

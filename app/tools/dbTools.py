@@ -1,5 +1,5 @@
-from flask import g as resources
-import time
+import boto3
+from boto3.dynamodb.conditions import Key
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from os import urandom
 from base64 import b64encode
@@ -9,123 +9,72 @@ secret_key = b64encode(key).decode('utf-8')
 
 
 class DataBaseManager:
-    user = "low_power"
-    password = "qweQWE123!@#"
-    host = "127.0.0.1" # Use 127.0.0.1 if running locally
-    database = "InstaKilo"
+    @staticmethod
+    def add_user(username, first_name, last_name, email, password):
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_users'
 
-    def __init__(self, has_resources=True):
-        self.db = None
+        table = dynamodb.Table(table_name)
 
-        if resources:
-            self.db = getattr(resources, '_database', None)
-
-        if self.db is None and has_resources:
-            self.db = resources._database = self._connect_to_database()
-
-        if self.db is None and not has_resources:
-            self.db = self._connect_to_database()
-
-    def _connect_to_database(self):
-        """This method is only supposed to be called from DataBaseManager's constructor"""
-        return True#mysql.connector.connect(user=self.user, password=self.password, host=self.host, database=self.database)
-
-    def _commit(self):
-        self.db.commit()
-
-    def _run_query(self, query, parameters, auto_commit=True):
-        cursor = self.db.cursor()
-        rows = []
-        try:
-            cursor.execute(query, parameters)
-
-            try:
-                rows = cursor.fetchall()
-
-            except mysql.connector.Error:
-                # Most likely just an insert or delete query with
-                # no returned results. We can ignore this error.
-                pass
-
-            if auto_commit:
-                self._commit()
-
-        except mysql.connector.Error:
-            self.db.rollback()
-            cursor.close()
-            return False, rows
-
-        cursor.close()
-        return True, rows
-
-    def add_user(self, username, first_name, last_name, email, password):
-        query = ('insert into user (id, profile, name, first_name, last_name, email, pw_salt_hash) '
-                 'values (DEFAULT, (select id from user_profile where type = "user"), %s, %s, %s, %s, %s)')
-        parameters = (username, first_name, last_name, email, password)
-
-        return self._run_query(query, parameters)[0]
-
-    def add_photos(self, owner, title, hashtag, saved_files):
-        now = time.strftime("%Y-%m-%d %H:%M:%S")
-        query = ("insert into photo (id, owner, title, hashtags, date_time_added, orig_file_name, thumb_file_name) "
-                 "values (DEFAULT, (select id from user where name = %s), %s, %s, %s, %s, %s)")
-        parameters = (owner, title, hashtag, now, saved_files.get("original"), saved_files.get("thumbnail"))
-        if not self._run_query(query, parameters, False)[0]:
-            return False
-
-        transformations = list()
-        transformations.append(("warm", saved_files.get("warm")))
-        transformations.append(("b&w", saved_files.get("b&w")))
-        transformations.append(("high contrast", saved_files.get("high contrast")))
-
-        for trans_type, file_name in transformations:
-            query = ('insert into transformation (id, original, trans_type, file_name) '
-                     'values (DEFAULT, '
-                             '(select id from photo where orig_file_name = %s), '
-                             '(select id from transformation_type where description = %s), '
-                             '%s)')
-            parameters = (saved_files.get("original"), trans_type, file_name)
-            if not self._run_query(query, parameters, False)[0]:
-                return False
-
-        self._commit()
+        table.put_item(
+            Item={
+                'username': username,
+                'first_name': first_name,
+                'last_name': last_name,
+                'email': email,
+                'password': password,
+            }
+        )
 
         return True
 
-    def email_already_exists(self, email):
-        query = ('select name '
-                 'from user '
-                 'where email = %s')
-        parameters = (email,)
-        return self._run_query(query, parameters)[1]
+    @staticmethod
+    def email_already_exists(email):
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_users'
 
-    def update_new_password(self, new_pwd, email):
-        query = ('update user '
-                 'set pw_salt_hash = %s '
-                 'where email = %s')
-        parameters = (new_pwd, email)
-        print(parameters)
-        return self._run_query(query, parameters)[0]
+        table = dynamodb.Table(table_name)
 
-    def scaling(self, scale_up_load, scale_down_load, expand_ratio, shrink_ratio, scale_mode):
-        query = ('update scaling_settings SET scale_up_load=%s,scale_down_load=%s,expand_ratio=%s,shrink_ratio=%s,scaling_mode=%s WHERE id= 1')
-        parameters = (scale_up_load, scale_down_load, expand_ratio, shrink_ratio, scale_mode)
+        response = table.scan(
+            FilterExpression=Key('email').eq(email),
+        )
 
-        return self._run_query(query, parameters)[0]
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(
+                FilterExpression=Key('email').eq(email),
+                ExclusiveStartKey=response['LastEvaluatedKey']
+            )
 
-    def get_scaling_settings(self):
-        query = ('select * from scaling_settings')
-        parameters = ()
+        item = response['Items']
 
-        scaling_settings = self._run_query(query, parameters)[1]
+        if not item:
+            return False
 
-        up_scale_factor = scaling_settings[0][1]
-        down_scale_factor = scaling_settings[0][2]
-        instance_start_load = scaling_settings[0][3]
-        instance_termination_load = scaling_settings[0][4]
-        mode = scaling_settings[0][5]
+        return True
 
-        return up_scale_factor, down_scale_factor, instance_start_load, instance_termination_load, mode
+    @staticmethod
+    def get_user_pwd_hash(username):
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_users'
+
+        table = dynamodb.Table(table_name)
+
+        response = table.get_item(
+            Key={
+                'username': username,
+            }
+        )
+
+        try:
+            item = response['Item']
+        except Exception as exception:
+            item = list()
+
+        salt = pw_hash = ''
+        if item:
+            salt, pw_hash = DataBaseManager.split_salt_hash(item.get('password'))
+
+        return salt, pw_hash
 
     @staticmethod
     def split_salt_hash(salt_hash):
@@ -133,54 +82,40 @@ class DataBaseManager:
         salt = salt[1:]
         return salt, pw_hash
 
-    def get_user_pwd_hash(self, username):
-        query = ('select pw_salt_hash '
-                 'from user '
-                 'where name = %s')
-        parameters = (username,)
+    def update_new_password(self, new_pwd, email):
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_users'
 
-        rows = self._run_query(query, parameters)[1]
+        table = dynamodb.Table(table_name)
 
-        salt = pw_hash = ""
+        response = table.scan(
+            FilterExpression=Key('email').eq(email),
+        )
 
-        if rows:
-            salt, pw_hash = DataBaseManager.split_salt_hash(rows[0][0])
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(
+                FilterExpression=Key('email').eq(email),
+                ExclusiveStartKey=response['LastEvaluatedKey']
+            )
 
-        return salt, pw_hash
+        item = response['Items']
 
-    def get_user_type(self, username):
-        query = ('select type from user_profile, user '
-                 'where user_profile.id = user.profile and user.name = %s')
-        parameters = (username,)
+        if item:
+            username = item[0].get('username')
 
-        rows = self._run_query(query, parameters)[1]
+            table.update_item(
+                Key={
+                    'username': username,
+                },
+                UpdateExpression='SET password = :new_pwd',
+                ExpressionAttributeValues={
+                    ':new_pwd': new_pwd
+                }
+            )
+        else:
+            return False
 
-        return rows[0][0]
-
-    def get_user_thumbs(self, username, f_mgr):
-        query = ("select id, thumb_file_name from photo where owner = (select id from user where name = %s)"
-                 "order by date_time_added desc")
-        parameters = (username,)
-
-        rows = self._run_query(query, parameters)[1]
-
-        return rows
-
-    def get_user_full_sizes(self, username, img_id):
-        query = ("select title as transformation_type, orig_file_name "
-                 "from photo where id = %s " 
-                 "and owner = (select id from user where name = %s) " 
-                 "UNION "
-                 "select description, file_name "
-                 "from transformation, photo, user, transformation_type "
-                 "where original = %s and transformation.original = photo.id and " 
-                 "photo.owner = (select id from user where name = %s) and " 
-                 "transformation.trans_type = transformation_type.id")
-        parameters = (img_id, username, img_id, username)
-
-        rows = self._run_query(query, parameters)[1]
-
-        return rows
+        return True
 
     @staticmethod
     def get_token(email, expires_sec=300):
@@ -196,17 +131,102 @@ class DataBaseManager:
             return None
         return user_email
 
-    def reset_database(self):
-        query = ("delete from user where name <> %s")
-        parameters = ("root",)
+    @staticmethod
+    def get_projects():
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_projects'
 
-        rows = self._run_query(query, parameters)[1]
+        table = dynamodb.Table(table_name)
 
-        return rows
+        response = table.scan()
 
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(
+                ExclusiveStartKey=response['LastEvaluatedKey']
+            )
 
-#@userUI.teardown_appcontext
-#def teardown_db(exception):
-#    db = getattr(resources, "_database", None)
-#    if db is not None:
-#        db.close()
+        items = response['Items']
+
+        projects = list()
+        for item in items:
+            projects.append(item.get('name'))
+
+        return projects
+
+    @staticmethod
+    def add_project(project_name):
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_projects'
+
+        table = dynamodb.Table(table_name)
+
+        table.put_item(
+            Item={
+                'name': project_name,
+            }
+        )
+
+        return True
+
+    @staticmethod
+    def get_documents_for(selected_project):
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_documents'
+
+        table = dynamodb.Table(table_name)
+
+        response = table.scan(
+            FilterExpression=Key('project').eq(selected_project),
+        )
+
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(
+                FilterExpression=Key('project').eq(selected_project),
+                ExclusiveStartKey=response['LastEvaluatedKey']
+            )
+
+        items = response['Items']
+
+        documents = list()
+        for item in items:
+            documents.append(item.get('code'))
+
+        return documents
+
+    @staticmethod
+    def add_document(project, document):
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_documents'
+
+        table = dynamodb.Table(table_name)
+
+        table.put_item(
+            Item={
+                'code': document,
+                'project': project
+            }
+        )
+
+        return True
+
+    @staticmethod
+    def get_disciplines():
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_disciplines'
+
+        table = dynamodb.Table(table_name)
+
+        response = table.scan()
+
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(
+                ExclusiveStartKey=response['LastEvaluatedKey']
+            )
+
+        items = response['Items']
+
+        disciplines = list()
+        for item in items:
+            disciplines.append(item.get('name'))
+
+        return disciplines
