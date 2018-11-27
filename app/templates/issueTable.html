@@ -12,32 +12,40 @@
 			<td>PROJECTS</td>
 			<td>DOCUMENT</td>
 			<td>STATUS</td>
-			<td>DATE_AODE</td>
+			<td>DATE</td>
 			<td>ENGINEERING SUBJECT</td>
 			<td>ISSUE</td>
 			</tr>
-			<% 
-				while(rs.next())
+			{%
+				for row in issues:
 				{
-				%>
+				%}
 				<tr>
 					<td>
-								
-						<%=rs.getString(1)%>
+						{% row[0] %}
 					</td>
 					<td>
-						<%=rs.getString(2)%>
+						{% row[1] %}
 					</td>
 					<td>
-						<%=rs.getString(3)%>
+						{% row[2] %}
 					</td>
 					<td>
-						<a href="delete.jsp?id=<%= rs.getInt("ID") %>" ><input type="button" name="but" value="Delete"></a>
+						{% row[3] %}
+					</td>
+					<td>
+						{% row[4] %}
+					</td>
+					<td>
+						{% row[5] %}
+					</td>
+					<td>
+						{% row[6] %}
 					</td>
 				 </tr>
-				<%
+				{%
 				}
-				%>
+				%}
 		</table>
 
 </body>
