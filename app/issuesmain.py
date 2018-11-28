@@ -8,7 +8,7 @@ def render_main_issue_list():
     if 'authorized' in session and session['authorized'] is True:
         issues = DataBaseManager.get_issues()
 
-        return render_template("issue.html")
+        return render_template("issue.html",issues=issues)
     return redirect(url_for("index"))
 
 @IssueTracker.route('/export_to_pdf', methods=['POST'])
