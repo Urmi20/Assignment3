@@ -121,25 +121,21 @@ tr:nth-child(even){background-color: #f2f2f2}
 					</select>
 
 			Sort By Project
-				  <input type="text" name="project" list="projects" autocomplete=off onchange="this.form.submit()"
-                    {% if selected_project %} value="{{selected_project}}" {% endif %}/>
-                    <datalist id="projects">
-                    {% for row in issues %}
-                        {% name=row[5] %}
-                    <option value="{{project}}">{{name}}</option>
-                    {% endfor %}
-                    </datalist>
-			Sort By Keywords
-					<input type="text" name="keywords"/>
+					<select name ="project">
+							<option name="All">All</option>
+						{% for project in projects %}
+							<option name="{{project}}">{{project}}</option>
+						{% endfor %}
+					</select>
+
             Sort By Discipline
-                    <input type="text" name="discipline" list="discipline" autocomplete=off onchange="this.form.submit()"
-                    {% if selected_discipline %} value="{{selected_discipline}}" {% endif %}/>
-                    <datalist id="discipline">
-                    {% for row in issues %}
-                        {% name=row[2] %}
-                    <option value="{{discipline}}">{{discipline}}</option>
-                    {% endfor %}
-                    </datalist>
+                    <select name="discipline">
+							<option name="All">All</option>
+						{% for discipline in disciplines %}
+							<option name="{{discipline}}">{{discipline}}</option>
+						{% endfor %}
+					</select>
+
 
             Sort By Sentiment
                     <select>

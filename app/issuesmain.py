@@ -9,8 +9,10 @@ from app.tools.pagination import Pagination
 def render_main_issue_list():
     if 'authorized' in session and session['authorized'] is True:
         issues, last_evaluated_key = Pagination.scan_page(None, 5, None, None, 'Electrical', None, 'Open')
+        projects = DataBaseManager.get_projects()
+        disciplines = DataBaseManager.get_disciplines()
 
-        return render_template("issue.html", issues=issues)
+        return render_template("issue.html", issues=issues, projects=projects, disciplines=disciplines)
     return redirect(url_for("index"))
 
 
