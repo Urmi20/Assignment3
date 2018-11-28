@@ -4,13 +4,15 @@ from app.tools.dbTools import DataBaseManager
 from app.tools.pdfTools import PdfGenerator
 from app.tools.pagination import Pagination
 
+
 @IssueTracker.route('/main_issue_list')
 def render_main_issue_list():
     if 'authorized' in session and session['authorized'] is True:
-        issues, last_evaluated_key = Pagination.scan_page()
+        issues, last_evaluated_key = Pagination.scan_page(None, 5, None, None, 'Electrical', None, 'Open')
 
         return render_template("issue.html", issues=issues)
     return redirect(url_for("index"))
+
 
 @IssueTracker.route('/export_to_pdf', methods=['POST'])
 def export_to_pdf():
