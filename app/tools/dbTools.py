@@ -244,7 +244,7 @@ class DataBaseManager:
         return disciplines
 
     @staticmethod
-    def add_issue(project, document, discipline,issue, date_time, id):
+    def add_issue(project, document, discipline,issue, date_time, id, sentiment):
         dynamodb = boto3.resource('dynamodb')
         table_name = 'it_issues'
 
@@ -259,7 +259,8 @@ class DataBaseManager:
                     'status': "Open",
                     'date_added': date_time,
                     'discipline': discipline,
-                    'description': issue
+                    'description': issue,
+                    'sentiment': sentiment
                 },
                 ConditionExpression='attribute_not_exists(id)'
             )
