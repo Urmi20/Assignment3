@@ -89,16 +89,15 @@ footer {
 </head>
 <body>
 <header>
-  <h2>Cities</h2>
+  <h2>Project Tracker</h2>
 </header>
 
 <section>
   <nav>
     <ul>
 	  <li><a class="active" href="#home">Home</a></li>
-	  <li><a href="#news">News</a></li>
-	  <li><a href="#contact">Contact</a></li>
-	  <li><a href="#about">About</a></li>
+	  <li><a href="{{url_for('new_issue_landing')}}">New Issue</a></li>
+	  <li><a href="{{url_for('sign_out')}}">About</a></li>
 	</ul>
   </nav>
   
@@ -120,11 +119,11 @@ footer {
 			<li style="float:left;padding-right: 5px;">
 			Sort By Project
 				<form method="post" action="Project">
-				  <select name="{{}}">
-					<option value="{{}}">{{}}</option>
-					<option value="{{}}">{{}}</option>
-					<option value="{{}}">{{}}</option>
-					<option value="{{}}">{{}}</option>
+				  <select name="Placeholder">
+					<option value="Placeholder">Placeholder</option>
+					<option value="Placeholder">Placeholder</option>
+					<option value="Placeholder">Placeholder</option>
+					<option value="Placeholder">Placeholder</option>
 				  </select>
 				  <input type="submit">
 				</form>
@@ -145,37 +144,39 @@ footer {
 		
 			<tr>
 			<td>ID</td>
+			<td>DATE</td>
 			<td>PROJECTS</td>
 			<td>DOCUMENT</td>
-			<td>STATUS</td>
-			<td>DATE</td>
-			<td>ENGINEERING SUBJECT</td>
+			<td>DISCIPLINE</td>
 			<td>ISSUE</td>
+			<td>SENTIMENT</td>
+			<td>STATUS</td>
 			</tr>
-			{%
-				for row in issues
-				%}
+			{% for row in issues %}
 				<tr>
 					<td>
-					{% row[0] %}
+					{{row[4]}}
 					</td>
 					<td>
-					{% row[1] %}
+					{{row[0]}}
 					</td>
 					<td>
-					{% row[2] %}
+					{{row[5]}}
 					</td>
 					<td>
-					{% row[3] %}
+					{{row[3]}}
 					</td>
 					<td>
-					{% row[4] %}
+					{{row[2]}}
 					</td>
 					<td>
-					{% row[5] %}
+					{{row[1]}}
 					</td>
 					<td>
-					{% row[6] %}
+					{{row[6]}}
+					</td>
+					<td>
+					{{row[7]}}
 					</td>
 				 </tr>
 				{% endfor %}
@@ -185,7 +186,7 @@ footer {
 </section>
 
 <footer>
-  <p>Footer</p>
+  <p>Clark, Haldar, Joshi - All rights reserved</p>
 </footer>
 
 </body>
