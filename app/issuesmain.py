@@ -8,7 +8,13 @@ from app.tools.pagination import Pagination
 @IssueTracker.route('/main_issue_list')
 def render_main_issue_list():
     if 'authorized' in session and session['authorized'] is True:
-        issues, last_evaluated_key = Pagination.page_data(None, None, None, 'Electrical', None, None)
+        status_input = request.form.get('status')
+        project_input = request.form.get('project')
+        discipline_input = request.form.get('discipline')
+        sentiment_input = request.form.get('sentiment')
+        # document_input = request.form.get('document')
+
+        issues, last_evaluated_key = Pagination.page_data(None, project_input, None, discipline_input, sentiment_input, status_input)
         projects = DataBaseManager.get_projects()
         disciplines = DataBaseManager.get_disciplines()
         lists=['open','closed']

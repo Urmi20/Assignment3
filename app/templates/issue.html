@@ -19,9 +19,9 @@
 			<ul style="list-style: none; padding-left: 0;">
 			<li style="float:left;padding-right: 5px;">
 			Sort By Filter
-				<form method="post" action="filter">
+				<form method="post" action="main_issue_list">
                     Sort By Status
-					<select>
+					<select name ="status">
 						<option name="open" value="Open">Open</option>
 						<option name="closed" value="Closed">Closed</option>
 					</select>
@@ -44,7 +44,7 @@
 
 
             Sort By Sentiment
-                    <select>
+                    <select name="sentiment">
 						<option name="positive">Positive</option>
 						<option name="negative">Negative</option>
                         <option name="neutral">Neutral</option>
