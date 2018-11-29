@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-    <ul class="header">
-        <li style="float:right;"><a href="{{url_for('index')}}">Back</a></li>
-    </ul>
+<header>
+  	<h2>Issue Tracker</h2>
+	</header>
+
+	<section>
     <form name="registration" method="post" action="{{url_for('create_user')}}" class="container">
         <legend class="text-center case" style="margin-top:40px;">
-        <h1>Create your InstaKilo account</h1></legend>
+        <h1>Create your Issue Tracker account</h1></legend>
 
          <div class="text-center forms container">
                 {% if error %}
@@ -46,4 +48,5 @@
              <input type="submit" class="button" value="Submit"/><br/><br/>
          </div>
     </form>
+    </section>
 {% endblock %}

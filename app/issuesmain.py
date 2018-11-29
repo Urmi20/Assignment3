@@ -11,7 +11,10 @@ def render_main_issue_list():
         issues, last_evaluated_key = Pagination.page_data(None, None, None, 'Electrical', None, None)
         projects = DataBaseManager.get_projects()
         disciplines = DataBaseManager.get_disciplines()
-        return render_template("issue.html", issues=issues, projects=projects, disciplines=disciplines)
+        lists=['open','closed']
+
+        return render_template("issue.html", issues=issues, projects=projects, disciplines=disciplines,lists=lists)
+
     return redirect(url_for("index"))
 
 

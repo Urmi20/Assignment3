@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<ul class="header">
-    <li><h1>IK</h1></li>
-</ul>
+<header>
+  	<h2>Issue Tracker</h2>
+	</header>
+
+	<section>
 
 <form method="post" action="{{ url_for('change_pwd', token=token) }}">
     <legend class="text-center" style="margin-top:40px;"><h1>Issue Tracker</h1></legend>
@@ -29,5 +31,7 @@
     {% endif %}
 
     </div>
-</form>
+    </div>
+    </form>
+    </section>
 {% endblock %}

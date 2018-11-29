@@ -13,6 +13,7 @@ def new_issue_landing():
         projects = DataBaseManager.get_projects()
         documents = list()
         disciplines = list()
+
         db_success = True
 
         selected_project = request.form.get('project')

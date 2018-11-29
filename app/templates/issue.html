@@ -53,6 +53,13 @@
                     <input type="submit" value="submit">
 				</form>
 			</li>
+            <li style="float:right;">
+                <form action="" method="post">
+                    <button name="pdf" type="submit">Export to PDF</button>
+                </form>
+
+			</li>
+
 		</ul>
 	</p>
 	<br/>
@@ -94,7 +101,15 @@
 					{{row[6]}}
 					</td>
 					<td>
-					{{row[7]}}
+                        <form method="post" action="change_status">
+                            <select>
+                                <option value={{row[7]}}>{{row[7]}}</option>
+                                {% for status in lists %}
+                                    <option value={{status}}>{{status}}</option>
+                                {% endfor %}
+                            </select>
+                            <input type="submit" value="Edit">
+                        </form>
 					</td>
 				 </tr>
 				{% endfor %}
