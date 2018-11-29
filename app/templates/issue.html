@@ -94,7 +94,15 @@
 					{{row[6]}}
 					</td>
 					<td>
-					{{row[7]}}
+                        <form method="post" action="change_status">
+                            <select>
+                                <option value={{row[7]}}>{{row[7]}}</option>
+                                {% for status in lists %}
+                                    <option value={{status}}>{{status}}</option>
+                                {% endfor %}
+                            </select>
+                            <input type="submit" value="Edit">
+                        </form>
 					</td>
 				 </tr>
 				{% endfor %}
