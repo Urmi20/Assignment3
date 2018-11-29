@@ -22,6 +22,7 @@
 				<form method="post" action="filter">
                     Sort By Status
 					<select>
+                        <option name="status_all" value="All">All</option>
 						<option name="open" value="Open">Open</option>
 						<option name="closed" value="Closed">Closed</option>
 					</select>
@@ -45,6 +46,7 @@
 
             Sort By Sentiment
                     <select>
+                        <option name="sent_all">All</option>
 						<option name="positive">Positive</option>
 						<option name="negative">Negative</option>
                         <option name="neutral">Neutral</option>
@@ -102,13 +104,13 @@
 					</td>
 					<td>
                         <form method="post" action="change_status">
-                            <select>
-                                <option value={{row[7]}}>{{row[7]}}</option>
+                            <select name="status_row" onchange="this.form.submit()">
+
                                 {% for status in lists %}
-                                    <option value={{status}}>{{status}}</option>
+                                <option value="{{status}}">{{status}}</option>
                                 {% endfor %}
                             </select>
-                            <input type="submit" value="Edit">
+
                         </form>
 					</td>
 				 </tr>
