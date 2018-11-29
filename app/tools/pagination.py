@@ -617,8 +617,8 @@ class Pagination:
 
         last_evaluated_key = esk
 
-        if last_evaluated_key is None:
-            issues, last_evaluated_key = Pagination.scan_page(None,
+
+        issues, last_evaluated_key = Pagination.scan_page(last_evaluated_key,
                                                               project_input,
                                                               document_input,
                                                               discipline_input,
@@ -626,7 +626,7 @@ class Pagination:
                                                               status_input,
                                                               limit)
 
-        while len(issues) < 5 or last_evaluated_key is not None:
+        while len(issues) < 5 and last_evaluated_key is not None:
             issues, last_evaluated_key = Pagination.data(last_evaluated_key,
                                                           project_input,
                                                           document_input,

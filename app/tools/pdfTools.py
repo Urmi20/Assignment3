@@ -33,6 +33,8 @@ class PdfGenerator:
             pdf.cell(1.0, 0.0, 'Discipline: {}'.format(item.get('discipline')))
             pdf.ln(0.15)
             pdf.cell(1.0, 0.0, 'Status: {}'.format(item.get('status')))
+            pdf.ln(0.15)
+            pdf.cell(1.0, 0.0, 'Sentiment: {}'.format(item.get('sentiment')))
             pdf.ln(0.25)
 
             pdf.set_font('Times', '', 10.0)
