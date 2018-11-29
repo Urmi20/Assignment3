@@ -603,7 +603,12 @@ class Pagination:
                                                           sentiment_input,
                                                           status_input,
                                                           limit)
-        issues = nmp.concatenate((issues, final_arr), axis=0)
+        if len(issues) > 0 and len(final_arr) > 0:
+            issues = nmp.concatenate((issues, final_arr), axis=0)
+
+        if len(issues) == 0 and len(final_arr) > 0:
+            issues = final_arr
+
         return issues, last_evaluated_key
 
     @staticmethod
