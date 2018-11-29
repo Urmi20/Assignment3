@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, session
+from flask import render_template, redirect, url_for, session, request
 from app import IssueTracker
 from app.tools.dbTools import DataBaseManager
 from app.tools.pdfTools import PdfGenerator

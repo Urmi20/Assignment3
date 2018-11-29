@@ -22,13 +22,14 @@
 				<form method="post" action="main_issue_list">
                     Sort By Status
 					<select name ="status">
+                        <option name="status_all" value="All">All</option>
 						<option name="open" value="Open">Open</option>
 						<option name="closed" value="Closed">Closed</option>
 					</select>
 
 			Sort By Project
 					<select name ="project">
-							<option name="All">All</option>
+							<option name="project_all">All</option>
 						{% for project in projects %}
 							<option name="{{project}}">{{project}}</option>
 						{% endfor %}
@@ -36,7 +37,7 @@
 
             Sort By Discipline
                     <select name="discipline">
-							<option name="All">All</option>
+							<option name="dis_all">All</option>
 						{% for discipline in disciplines %}
 							<option name="{{discipline}}">{{discipline}}</option>
 						{% endfor %}
@@ -44,7 +45,9 @@
 
 
             Sort By Sentiment
+
                     <select name="sentiment">
+                        <option name="sent_all">All</option>
 						<option name="positive">Positive</option>
 						<option name="negative">Negative</option>
                         <option name="neutral">Neutral</option>
@@ -102,13 +105,13 @@
 					</td>
 					<td>
                         <form method="post" action="change_status">
-                            <select>
-                                <option value={{row[7]}}>{{row[7]}}</option>
+                            <select name="status_row" onchange="this.form.submit()">
+
                                 {% for status in lists %}
-                                    <option value={{status}}>{{status}}</option>
+                                <option value="{{status}}">{{status}}</option>
                                 {% endfor %}
                             </select>
-                            <input type="submit" value="Edit">
+
                         </form>
 					</td>
 				 </tr>
