@@ -8,19 +8,25 @@ from app.tools.pagination import Pagination
 @IssueTracker.route('/main_issue_list', methods=['POST', 'GET'])
 def render_main_issue_list():
     if 'authorized' in session and session['authorized'] is True:
+        documents = list()
         status_input = convert_all_to_none(request.form.get('status'))
         project_input = convert_all_to_none(request.form.get('project'))
         discipline_input = convert_all_to_none(request.form.get('discipline'))
         sentiment_input = convert_all_to_none(request.form.get('sentiment'))
-        # document_input = convert_all_to_none(request.form.get('document'))
+        document_input = convert_all_to_none(request.form.get('document'))
 
-        issues, last_evaluated_key = Pagination.page_data(None, project_input, None, discipline_input, sentiment_input, status_input)
+        if project_input:
+            documents = DataBaseManager.get_documents_for(project_input)
+
+        issues, last_evaluated_key = Pagination.page_data(None, project_input, document_input, discipline_input,
+                                                          sentiment_input, status_input)
         projects = DataBaseManager.get_projects()
         disciplines = DataBaseManager.get_disciplines()
         lists = ['open', 'closed']
 
-        return render_template("issue.html", issues=issues, projects=projects, disciplines=disciplines, lists=lists,
-                               selected_status=status_input, selected_project=project_input,
+        return render_template("issue.html", issues=issues, projects=projects, documents=documents,
+                               disciplines=disciplines, lists=lists, selected_status=status_input,
+                               selected_project=project_input, selected_document=document_input,
                                selected_discipline=discipline_input, selected_sentiment=sentiment_input)
 
     return redirect(url_for("index"))
