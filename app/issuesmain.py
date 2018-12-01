@@ -9,11 +9,11 @@ from app.tools.pagination import Pagination
 def render_main_issue_list():
     if 'authorized' in session and session['authorized'] is True:
         documents = list()
-        status_input = convert_all_to_none(request.form.get('status'))
-        project_input = convert_all_to_none(request.form.get('project'))
-        discipline_input = convert_all_to_none(request.form.get('discipline'))
-        sentiment_input = convert_all_to_none(request.form.get('sentiment'))
-        document_input = convert_all_to_none(request.form.get('document'))
+        status_input = parse_string(request.form.get('status'))
+        project_input = parse_string(request.form.get('project'))
+        discipline_input = parse_string(request.form.get('discipline'))
+        sentiment_input = parse_string(request.form.get('sentiment'))
+        document_input = parse_string(request.form.get('document'))
 
         if project_input:
             documents = DataBaseManager.get_documents_for(project_input)
@@ -35,7 +35,13 @@ def render_main_issue_list():
 @IssueTracker.route('/export_to_pdf', methods=['POST'])
 def export_to_pdf():
     if 'authorized' in session and session['authorized'] is True:
-        issues = DataBaseManager.get_issues()
+        status = parse_string(request.form.get('status'))
+        project = parse_string(request.form.get('project'))
+        discipline = parse_string(request.form.get('discipline'))
+        sentiment = parse_string(request.form.get('sentiment'))
+        document = parse_string(request.form.get('document'))
+
+        issues = Pagination.get_all_filtered_issues(project, document, discipline, sentiment, status)
         pdf = PdfGenerator.format_pdf(issues)
 
         return PdfGenerator.create_pdf_file(pdf)
@@ -52,8 +58,8 @@ def change_issue_status():
     return ('', 204)
 
 
-def convert_all_to_none(text):
-    if text == "All":
+def parse_string(text):
+    if text == "All" or text == "None":
         return None
-    else:
-        return text
+
+    return text

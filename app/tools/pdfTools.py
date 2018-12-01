@@ -13,6 +13,15 @@ class PdfGenerator:
 
     @staticmethod
     def format_pdf(data):
+        date_time = 0
+        issue = 1
+        discipline = 2
+        document = 3
+        uid = 4
+        project = 5
+        sentiment = 6
+        status = 7
+
         pdf = FPDF(format='A4', unit='in')
         pdf.add_page()
 
@@ -20,25 +29,25 @@ class PdfGenerator:
 
         for item in data:
             pdf.set_font('Times', 'B', 15.0)
-            pdf.cell(effective_page_width, 0.0, 'Project: {}'.format(item.get('project')), align='C')
+            pdf.cell(effective_page_width, 0.0, 'Project: {}'.format(item[project]), align='C')
             pdf.ln(0.6)
             break
 
         for item in data:
             pdf.set_font('Times', 'B', 10.0)
-            pdf.cell(1.0, 0.0, 'ID: {} - Logged in: {}'.format(item.get('id'), item.get('date_added')))
+            pdf.cell(1.0, 0.0, 'ID: {} - Logged in: {}'.format(item[uid], item[date_time]))
             pdf.ln(0.15)
-            pdf.cell(1.0, 0.0, 'Document: {}'.format(item.get('document')))
+            pdf.cell(1.0, 0.0, 'Document: {}'.format(item[document]))
             pdf.ln(0.15)
-            pdf.cell(1.0, 0.0, 'Discipline: {}'.format(item.get('discipline')))
+            pdf.cell(1.0, 0.0, 'Discipline: {}'.format(item[discipline]))
             pdf.ln(0.15)
-            pdf.cell(1.0, 0.0, 'Status: {}'.format(item.get('status')))
+            pdf.cell(1.0, 0.0, 'Status: {}'.format(item[status]))
             pdf.ln(0.15)
-            pdf.cell(1.0, 0.0, 'Sentiment: {}'.format(item.get('sentiment')))
+            pdf.cell(1.0, 0.0, 'Sentiment: {}'.format(item[sentiment]))
             pdf.ln(0.25)
 
             pdf.set_font('Times', '', 10.0)
-            pdf.multi_cell(effective_page_width, 0.15, item.get('description'))
+            pdf.multi_cell(effective_page_width, 0.15, item[issue])
             pdf.ln(0.5)
 
         return pdf

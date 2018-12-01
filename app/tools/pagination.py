@@ -631,7 +631,7 @@ class Pagination:
                                                               status_input,
                                                               limit)
 
-        while len(issues) < 5 and last_evaluated_key is not None:
+        while len(issues) < limit and last_evaluated_key is not None:
             issues, last_evaluated_key = Pagination.data(last_evaluated_key,
                                                           project_input,
                                                           document_input,
@@ -642,3 +642,20 @@ class Pagination:
                                                           limit)
 
         return issues, last_evaluated_key
+
+    @staticmethod
+    def get_all_filtered_issues(
+                  project_input=None,
+                  document_input=None,
+                  discipline_input=None,
+                  sentiment_input=None,
+                  status_input=None):
+
+        issues = None
+        last_key = True
+
+        while last_key:
+            issues, last_key = Pagination.page_data(issues, project_input, document_input, discipline_input,
+                                                   sentiment_input, status_input, 5)
+
+        return issues
