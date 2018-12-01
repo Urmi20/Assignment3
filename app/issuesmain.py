@@ -22,7 +22,7 @@ def render_main_issue_list():
                                                           sentiment_input, status_input)
         projects = DataBaseManager.get_projects()
         disciplines = DataBaseManager.get_disciplines()
-        lists = ['open', 'closed']
+        lists = ['Open', 'Closed']
 
         return render_template("issue.html", issues=issues, projects=projects, documents=documents,
                                disciplines=disciplines, lists=lists, selected_status=status_input,
@@ -40,6 +40,16 @@ def export_to_pdf():
 
         return PdfGenerator.create_pdf_file(pdf)
     return redirect(url_for("index"))
+
+
+@IssueTracker.route('/change_issue_status', methods=['POST'])
+def change_issue_status():
+    if 'authorized' in session and session['authorized'] is True:
+        id = request.form.get('uid')
+        status = request.form.get('status_row')
+        DataBaseManager.update_issue_status(id, status)
+
+    return ('', 204)
 
 
 def convert_all_to_none(text):

@@ -141,14 +141,13 @@
 					{{row[6]}}
 					</td>
 					<td>
-                        <form method="post" action="change_status">
+                        <form method="post" action="change_issue_status">
                             <select name="status_row" onchange="this.form.submit()">
-
                                 {% for status in lists %}
                                 <option value="{{status}}">{{status}}</option>
                                 {% endfor %}
                             </select>
-
+							<input type="hidden" id="uid" name="uid" value="{{row[4]}}">
                         </form>
 					</td>
 				 </tr>

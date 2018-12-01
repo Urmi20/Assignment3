@@ -295,3 +295,22 @@ class DataBaseManager:
 
         return issues
 
+    @staticmethod
+    def update_issue_status(id, new_status):
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_issues'
+
+        table = dynamodb.Table(table_name)
+
+        table.update_item(
+            Key={
+                'id': id,
+            },
+            UpdateExpression='SET #status = :new_status',
+            ExpressionAttributeValues={
+                ':new_status': new_status
+            },
+            ExpressionAttributeNames={
+                "#status": "status"
+            }
+        )
