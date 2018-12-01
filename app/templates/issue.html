@@ -22,9 +22,6 @@
 				<form method="post" action="main_issue_list">
                     Sort By Status
 					<select name ="status">
-						{% if selected_status %}
-        				<option select="selected">{{selected_status}}</option>
-        				{% endif %}
                         <option name="status_all" value="All">All</option>
 						<option name="open" value="Open">Open</option>
 						<option name="closed" value="Closed">Closed</option>
@@ -32,9 +29,6 @@
 
 			Sort By Project
 					<select name ="project">
-						{% if selected_project %}
-        				<option select="selected">{{selected_project}}</option>
-        				{% endif %}
 							<option name="project_all">All</option>
 						{% for project in projects %}
 							<option name="{{project}}">{{project}}</option>
@@ -43,9 +37,6 @@
 
             Sort By Discipline
                     <select name="discipline">
-						{% if selected_discipline %}
-        				<option select="selected">{{selected_discipline}}</option>
-        				{% endif %}
 							<option name="dis_all">All</option>
 						{% for discipline in disciplines %}
 							<option name="{{discipline}}">{{discipline}}</option>
@@ -54,14 +45,12 @@
 
 
             Sort By Sentiment
+
                     <select name="sentiment">
-						{% if selected_sentiment %}
-        				<option select="selected">{{selected_sentiment}}</option>
-        				{% endif %}
                         <option name="sent_all">All</option>
-						<option name="POSITIVE">POSITIVE</option>
-						<option name="NEGATIVE">NEGATIVE</option>
-                        <option name="NEUTRAL">NEUTRAL</option>
+						<option name="positive">Positive</option>
+						<option name="negative">Negative</option>
+                        <option name="neutral">Neutral</option>
 					</select>
 
                     <input type="submit" value="submit">
