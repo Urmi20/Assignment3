@@ -18,31 +18,49 @@
     <p>
 			<ul style="list-style: none; padding-left: 0;">
 			<li style="float:left;padding-right: 5px;">
-			Sort By Filter
 				<form method="post" action="main_issue_list">
-                    Sort By Status
+                    Status
 					<select name ="status">
+<<<<<<< HEAD
                         <option name="status_all" value="All">All</option>
 						<option name="open" value="Open">Open</option>
 						<option name="closed" value="Closed">Closed</option>
+=======
+                        <option value="All">All</option>
+						<option value="Open" {% if selected_status == 'Open' %} selected="selected" {% endif %}>Open</option>
+						<option value="Closed" {% if selected_status == 'Closed' %} selected="selected" {% endif %}>Closed</option>
+>>>>>>> b698528cfecb645127b3de9d42e849ebf33ff542
 					</select>
 
-			Sort By Project
+					Project
 					<select name ="project">
+<<<<<<< HEAD
 							<option name="project_all">All</option>
+=======
+							<option value="All">All</option>
+>>>>>>> b698528cfecb645127b3de9d42e849ebf33ff542
 						{% for project in projects %}
-							<option name="{{project}}">{{project}}</option>
+							<option value="{{project}}"
+							{% if selected_project == project %} selected="selected" {% endif %}>
+								{{project}}</option>
 						{% endfor %}
 					</select>
 
-            Sort By Discipline
+            		Discipline
                     <select name="discipline">
+<<<<<<< HEAD
 							<option name="dis_all">All</option>
+=======
+							<option value="All">All</option>
+>>>>>>> b698528cfecb645127b3de9d42e849ebf33ff542
 						{% for discipline in disciplines %}
-							<option name="{{discipline}}">{{discipline}}</option>
+							<option value="{{discipline}}"
+							{% if selected_discipline == discipline %} selected="selected" {% endif %}>
+								{{discipline}}</option>
 						{% endfor %}
 					</select>
 
+<<<<<<< HEAD
 
             Sort By Sentiment
 
@@ -51,18 +69,61 @@
 						<option name="positive">Positive</option>
 						<option name="negative">Negative</option>
                         <option name="neutral">Neutral</option>
+=======
+            		Sentiment
+                    <select name="sentiment">
+                        <option value="All">All</option>
+						<option value="POSITIVE" {% if selected_sentiment == 'POSITIVE' %} selected="selected" {% endif %}>POSITIVE</option>
+						<option value="NEGATIVE" {% if selected_sentiment == 'NEGATIVE' %} selected="selected" {% endif %}>NEGATIVE</option>
+                        <option value="NEUTRAL"  {% if selected_sentiment == 'NEUTRAL'  %} selected="selected" {% endif %}>NEUTRAL</option>
+>>>>>>> b698528cfecb645127b3de9d42e849ebf33ff542
 					</select>
 
                     <input type="submit" value="submit">
 				</form>
+
+			{% if documents %}
+				<form method="post" action="main_issue_list">
+					Document
+					<select name="document" onchange="this.form.submit()">
+						{% if selected_document %}
+							<option select="selected">{{selected_document}}</option>
+							{% endif %}
+								<option name="doc_all">All</option>
+							{% for document in documents %}
+								<option name="{{document}}">{{document}}</option>
+							{% endfor %}
+					</select>
+					{% if selected_status %}
+					<input type="hidden" id="status" name="status" value="{{selected_status}}">
+					{% endif %}
+					{% if selected_project %}
+					<input type="hidden" id="project" name="project" value="{{selected_project}}">
+					{% endif %}
+					{% if selected_discipline %}
+					<input type="hidden" id="discipline" name="discipline" value="{{selected_discipline}}">
+					{% endif %}
+					{% if selected_sentiment %}
+					<input type="hidden" id="sentiment" name="sentiment" value="{{selected_sentiment}}">
+					{% endif %}
+				</form>
+			{% endif %}
 			</li>
             <li style="float:right;">
                 <form action="{{url_for('export_to_pdf')}}" method="post">
-                    <button name="pdf" type="submit">Export to PDF</button>
+                    <button name="pdf" id="pdf" type="submit">Export to PDF</button>
+					<input type="hidden" id="status" name="status" value="{{selected_status}}">
+					<input type="hidden" id="project" name="project" value="{{selected_project}}">
+					<input type="hidden" id="discipline" name="discipline" value="{{selected_discipline}}">
+					<input type="hidden" id="sentiment" name="sentiment" value="{{selected_sentiment}}">
+					<input type="hidden" id="document" name="document" value="{{selected_document}}">
                 </form>
-
 			</li>
-
+	  	{% if not selected_project %}
+		<script>
+		document.getElementById("pdf").disabled = true;
+		</script>
+		{% endif %}
 		</ul>
 	</p>
 	<br/>
@@ -104,14 +165,13 @@
 					{{row[6]}}
 					</td>
 					<td>
-                        <form method="post" action="change_status">
+                        <form method="post" action="change_issue_status">
                             <select name="status_row" onchange="this.form.submit()">
-
                                 {% for status in lists %}
                                 <option value="{{status}}">{{status}}</option>
                                 {% endfor %}
                             </select>
-
+							<input type="hidden" id="uid" name="uid" value="{{row[4]}}">
                         </form>
 					</td>
 				 </tr>

@@ -8,19 +8,25 @@ from app.tools.pagination import Pagination
 @IssueTracker.route('/main_issue_list', methods=['POST', 'GET'])
 def render_main_issue_list():
     if 'authorized' in session and session['authorized'] is True:
-        status_input = convert_all_to_none(request.form.get('status'))
-        project_input = convert_all_to_none(request.form.get('project'))
-        discipline_input = convert_all_to_none(request.form.get('discipline'))
-        sentiment_input = convert_all_to_none(request.form.get('sentiment'))
-        # document_input = convert_all_to_none(request.form.get('document'))
+        documents = list()
+        status_input = parse_string(request.form.get('status'))
+        project_input = parse_string(request.form.get('project'))
+        discipline_input = parse_string(request.form.get('discipline'))
+        sentiment_input = parse_string(request.form.get('sentiment'))
+        document_input = parse_string(request.form.get('document'))
 
-        issues, last_evaluated_key = Pagination.page_data(None, project_input, None, discipline_input, sentiment_input, status_input)
+        if project_input:
+            documents = DataBaseManager.get_documents_for(project_input)
+
+        issues, last_evaluated_key = Pagination.page_data(None, project_input, document_input, discipline_input,
+                                                          sentiment_input, status_input)
         projects = DataBaseManager.get_projects()
         disciplines = DataBaseManager.get_disciplines()
-        lists = ['open', 'closed']
+        lists = ['Open', 'Closed']
 
-        return render_template("issue.html", issues=issues, projects=projects, disciplines=disciplines, lists=lists,
-                               selected_status=status_input, selected_project=project_input,
+        return render_template("issue.html", issues=issues, projects=projects, documents=documents,
+                               disciplines=disciplines, lists=lists, selected_status=status_input,
+                               selected_project=project_input, selected_document=document_input,
                                selected_discipline=discipline_input, selected_sentiment=sentiment_input)
 
     return redirect(url_for("index"))
@@ -29,15 +35,31 @@ def render_main_issue_list():
 @IssueTracker.route('/export_to_pdf', methods=['POST'])
 def export_to_pdf():
     if 'authorized' in session and session['authorized'] is True:
-        issues = DataBaseManager.get_issues()
+        status = parse_string(request.form.get('status'))
+        project = parse_string(request.form.get('project'))
+        discipline = parse_string(request.form.get('discipline'))
+        sentiment = parse_string(request.form.get('sentiment'))
+        document = parse_string(request.form.get('document'))
+
+        issues = Pagination.get_all_filtered_issues(project, document, discipline, sentiment, status)
         pdf = PdfGenerator.format_pdf(issues)
 
         return PdfGenerator.create_pdf_file(pdf)
     return redirect(url_for("index"))
 
 
-def convert_all_to_none(text):
-    if text == "All":
+@IssueTracker.route('/change_issue_status', methods=['POST'])
+def change_issue_status():
+    if 'authorized' in session and session['authorized'] is True:
+        id = request.form.get('uid')
+        status = request.form.get('status_row')
+        DataBaseManager.update_issue_status(id, status)
+
+    return ('', 204)
+
+
+def parse_string(text):
+    if text == "All" or text == "None":
         return None
-    else:
-        return text
+
+    return text

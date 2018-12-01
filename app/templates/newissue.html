@@ -53,13 +53,9 @@ Select a document:
 Select a discipline:
 <form method="post" action="new_issue_landing">
     <select name="discipline" onchange="this.form.submit()">
-        {% if selected_discipline %}
-        <option select="selected">{{selected_discipline}}</option>
-        {% else %}
         <option disabled selected value> -- Select a discipline -- </option>
-        {% endif %}
         {% for discipline in disciplines %}
-        <option value="{{discipline}}">{{discipline}}</option>
+        <option value="{{discipline}}" {% if selected_discipline == discipline %} selected="selected" {% endif %}>{{discipline}}</option>
         {% endfor %}
     </select>
     <input type="hidden" id="project" name="project" value="{{selected_project}}">
@@ -78,6 +74,7 @@ Select a discipline:
     <input type="hidden" id="document" name ="document" value="{{selected_document}}">
     <input type="hidden" id="discipline" name ="discipline" value="{{selected_discipline}}">
     <input type="hidden" id="issues_so_far" name ="issues_so_far" value="{{issues_so_far}}">
+    </br>
     <input type="submit" class="button" value="Add issue"/>
 </form>
 {% endif %}
