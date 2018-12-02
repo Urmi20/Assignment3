@@ -5,11 +5,10 @@
 	</header>
 
 	<section>
-    <form name="registration" method="post" action="{{url_for('create_user')}}" class="container">
-        <legend class="text-center case" style="margin-top:40px;">
+    <form name="registration" method="post" action="{{url_for('create_user')}}">
+        <legend style="margin-top:40px;">
         <h1>Create your Issue Tracker account</h1></legend>
 
-         <div class="text-center forms container">
                 {% if error %}
                 <br/>
                 {% endif %}
@@ -17,34 +16,46 @@
                 <span style="color:red;">{{ err }}</span><br/>
                 {% endfor %}
                 <br/>
+                <div class="text-input">
                 <input type="text" name="username" value="{{username if username!=None}}"
                        required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$"
                        title="Up to 20 characters, numbers and -_\."
-                       placeholder="User Name" class="textbox"/><br/><br/>
-
+                       style="text-align: center;" placeholder="User Name" id="username"/>
+                <label for="username">Username</label><br/>
+                </div>
+                <div class="text-input">
                 <input type="text" name="first_name" value="{{first_name if first_name!=None}}"
                        required pattern="[a-zA-Z ]{3,45}$"
                        title="From 3 to 45 characters (spaces included). No special characters or numbers."
-                       placeholder="First name" class="textbox"/><br/><br/>
-
+                       style="text-align: center;" placeholder="First name" id="firstname"/>
+                <label for="firstname">First Name</label><br/>
+                </div>
+                <div class="text-input">
                 <input type="text" name="last_name" value="{{last_name if last_name!=None}}"
                        required pattern="^[a-zA-Z ][a-zA-Z0-9-. ]{1,100}$"
                        title="Up to 100 characters (spaces included), numbers and -."
-                       placeholder="Last name" class="textbox"/><br/><br/>
-
+                       style="text-align: center;" placeholder="Last name" id="lastname"/>
+                <label for="lastname">Last Name</label><br/>
+                </div>
+                <div class="email-input">
                 <input type="email" name="email" value="{{email if email!=None}}"
                        required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
-                       placeholder="email" class="textbox"/><br/><br/>
-
+                       style="text-align: center;" placeholder="email" id="email"/>
+                <label for="email">Email</label><br/>
+                </div>
+                <div class="pwd-input">
                 <input type="password" name="password" value=""
                        required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
                        title="Minimum length: 8. Must include at least one uppercase and one lowercase character, one number and one special character"
-                       placeholder="Password" class="textbox"/><br/><br/>
-
+                       style="text-align: center;" placeholder="Password" id="pwd"/>
+                    <label for="pwd">Password</label><br/>
+                </div>
+                <div class="pwd-input">
                 <input type="password" name="password_conf" value=""
                        required placeholder="Confirm password"
-                       title="Must match the password"class="textbox"/><br/><br/>
-
+                       style="text-align: center;" title="Must match the password" id="cpwd"/>
+                    <label for="cpwd">Confirm Password</label><br/><br/>
+                </div>
              <input type="submit" class="button" value="Submit"/><br/><br/>
          </div>
     </form>

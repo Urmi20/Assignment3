@@ -4,27 +4,31 @@
   	<h2>Project Tracker</h2>
 	</header>
 
-	<section>
-	<form method="post" action="authenticate_user"> <!-- Redirected to index.py-->  <!-- add action path-->s
+	<form method="post"  action="authenticate_user"> <!-- Redirected to index.py-->  <!-- add action path-->
 
-		<div class="text-center forms container">
-			<input type="text" name="username" value="{{username if username!=None}}"
-				   placeholder="Username or email" class="textbox"/><br/><br/>
-
-			<input type="password" name="password"
-				   placeholder="Password" class="textbox"/><br/><br/>
-
+		<div class="text-input">
+			<input type="text" id="username" name="username" value="{{username if username!=None}}" style="text-align: center;"
+				   placeholder="Username or email"/>
+			<label for="username">Name</label>
+		</div>
+		<br>
+		<div class="pwd-input">
+			<input type="password" id="password" name="password"
+				   style="text-align: center;" placeholder="Password"/>
+			<label for="password">Password</label>
 			{% if error == True %}
 				Wrong Username or password<br/><br>
 			{% endif %}
-
+		</div>
+		<br>
 			<a href="{{url_for('forgotpwd')}}" style="color:black;">Forgot your password?</a>
-			<input type="submit" class="button" value="Sign in"/><br/><br/>
+			<input type="submit" class="button" style="vertical-align:middle;" value="Sign in"/>
+		<br>
+		<br>
 
 			<label>New User?</label>
-			<a href="{{url_for('create_user_landing')}}" style="color:black;"><b>Sign Up Now</b></a>
-		</div>
+			<a href="{{url_for('create_user_landing')}}" style="color:black";><b>Sign Up Now</b></a>
+
 	</form>
-	</section>
 
 {% endblock %}

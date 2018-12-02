@@ -21,24 +21,24 @@
 				<form method="post" action="main_issue_list">
                     Status
 					<select name ="status">
-<<<<<<< HEAD
+
                         <option name="status_all" value="All">All</option>
 						<option name="open" value="Open">Open</option>
 						<option name="closed" value="Closed">Closed</option>
-=======
+
                         <option value="All">All</option>
 						<option value="Open" {% if selected_status == 'Open' %} selected="selected" {% endif %}>Open</option>
 						<option value="Closed" {% if selected_status == 'Closed' %} selected="selected" {% endif %}>Closed</option>
->>>>>>> b698528cfecb645127b3de9d42e849ebf33ff542
+
 					</select>
 
 					Project
 					<select name ="project">
-<<<<<<< HEAD
+
 							<option name="project_all">All</option>
-=======
+
 							<option value="All">All</option>
->>>>>>> b698528cfecb645127b3de9d42e849ebf33ff542
+
 						{% for project in projects %}
 							<option value="{{project}}"
 							{% if selected_project == project %} selected="selected" {% endif %}>
@@ -48,11 +48,11 @@
 
             		Discipline
                     <select name="discipline">
-<<<<<<< HEAD
+
 							<option name="dis_all">All</option>
-=======
+
 							<option value="All">All</option>
->>>>>>> b698528cfecb645127b3de9d42e849ebf33ff542
+
 						{% for discipline in disciplines %}
 							<option value="{{discipline}}"
 							{% if selected_discipline == discipline %} selected="selected" {% endif %}>
@@ -60,7 +60,6 @@
 						{% endfor %}
 					</select>
 
-<<<<<<< HEAD
 
             Sort By Sentiment
 
@@ -69,14 +68,14 @@
 						<option name="positive">Positive</option>
 						<option name="negative">Negative</option>
                         <option name="neutral">Neutral</option>
-=======
+
             		Sentiment
                     <select name="sentiment">
                         <option value="All">All</option>
 						<option value="POSITIVE" {% if selected_sentiment == 'POSITIVE' %} selected="selected" {% endif %}>POSITIVE</option>
 						<option value="NEGATIVE" {% if selected_sentiment == 'NEGATIVE' %} selected="selected" {% endif %}>NEGATIVE</option>
                         <option value="NEUTRAL"  {% if selected_sentiment == 'NEUTRAL'  %} selected="selected" {% endif %}>NEUTRAL</option>
->>>>>>> b698528cfecb645127b3de9d42e849ebf33ff542
+
 					</select>
 
                     <input type="submit" value="submit">
