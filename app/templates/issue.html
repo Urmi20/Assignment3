@@ -156,22 +156,27 @@
 				 </tr>
 				{% endfor %}
 		</table>
+	  	<p>
 	  	<div style="text-align: center;">
-			{% if not first_page %}
-			<button onclick="goBack()">< Previous</button>
-			{% endif %}
-			<form method="post" action="main_issue_list">
-				{% if last_key %}
-				<button name="next" id="next" type="submit">Next ></button>
+			<div style="float: left; width: 58px">
+				{% if not first_page %}
+				<button onclick="goBack()">< Prev</button>
 				{% endif %}
-				<input type="hidden" id="db_key" name="db_key" value="{{last_key}}">
-				<input type="hidden" id="status" name="status" value="{{selected_status}}">
-				<input type="hidden" id="project" name="project" value="{{selected_project}}">
-				<input type="hidden" id="discipline" name="discipline" value="{{selected_discipline}}">
-				<input type="hidden" id="sentiment" name="sentiment" value="{{selected_sentiment}}">
-				<input type="hidden" id="document" name="document" value="{{selected_document}}">
-				<input type="hidden" id="next_b" name="next_b" value="next_b">
-			</form>
+			</div>
+			<div style="float: right; width: 58px">
+				<form method="post" action="main_issue_list">
+					{% if last_key %}
+					<button name="next" id="next" type="submit">Next ></button>
+					{% endif %}
+					<input type="hidden" id="db_key" name="db_key" value="{{last_key}}">
+					<input type="hidden" id="status" name="status" value="{{selected_status}}">
+					<input type="hidden" id="project" name="project" value="{{selected_project}}">
+					<input type="hidden" id="discipline" name="discipline" value="{{selected_discipline}}">
+					<input type="hidden" id="sentiment" name="sentiment" value="{{selected_sentiment}}">
+					<input type="hidden" id="document" name="document" value="{{selected_document}}">
+					<input type="hidden" id="next_b" name="next_b" value="next_b">
+				</form>
+			</div>
 		</div>
 		<script>
 			function goBack() {
