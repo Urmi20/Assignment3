@@ -14,11 +14,22 @@ def render_main_issue_list():
         discipline_input = parse_string(request.form.get('discipline'))
         sentiment_input = parse_string(request.form.get('sentiment'))
         document_input = parse_string(request.form.get('document'))
+        last_key = parse_string(request.form.get('db_key'))
+        first_page = parse_string(request.form.get('first_page'))
+        filter = parse_string(request.form.get('filter'))
+
+        if (not filter and not first_page) or filter:
+            first_page = 'first_page'
 
         if project_input:
             documents = DataBaseManager.get_documents_for(project_input)
 
-        issues, last_evaluated_key = Pagination.page_data(None, project_input, document_input, discipline_input,
+        if last_key:
+            last_key_dict = eval(last_key)
+        else:
+            last_key_dict = None
+
+        issues, last_key = Pagination.page_data(last_key_dict, project_input, document_input, discipline_input,
                                                           sentiment_input, status_input)
         projects = DataBaseManager.get_projects()
         disciplines = DataBaseManager.get_disciplines()
@@ -27,7 +38,8 @@ def render_main_issue_list():
         return render_template("issue.html", issues=issues, projects=projects, documents=documents,
                                disciplines=disciplines, lists=lists, selected_status=status_input,
                                selected_project=project_input, selected_document=document_input,
-                               selected_discipline=discipline_input, selected_sentiment=sentiment_input)
+                               selected_discipline=discipline_input, selected_sentiment=sentiment_input,
+                               last_key=last_key, first_page=first_page)
 
     return redirect(url_for("index"))
 
