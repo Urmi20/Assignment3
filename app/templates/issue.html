@@ -18,7 +18,7 @@
     <p>
 			<ul style="list-style: none; padding-left: 0;">
 			<li style="float:left;padding-right: 5px;">
-				<form method="post" action="main_issue_list">
+				<form method="post" action="main_issue_list"">
                     Status
 					<select name ="status">
                         <option value="All">All</option>
@@ -55,6 +55,8 @@
 					</select>
 
                     <input type="submit" value="submit">
+					<input type="hidden" id="first_page" name="fist_page" value="first_page">
+					<input type="hidden" id="filter" name="filter" value="filter">
 				</form>
 
 			{% if documents %}
@@ -81,6 +83,8 @@
 					{% if selected_sentiment %}
 					<input type="hidden" id="sentiment" name="sentiment" value="{{selected_sentiment}}">
 					{% endif %}
+					<input type="hidden" id="first_page" name="fist_page" value="first_page">
+					<input type="hidden" id="filter" name="filter" value="filter">
 				</form>
 			{% endif %}
 			</li>
@@ -152,6 +156,28 @@
 				 </tr>
 				{% endfor %}
 		</table>
+	  	<div style="text-align: center;">
+			{% if not first_page %}
+			<button onclick="goBack()">< Previous</button>
+			{% endif %}
+			<form method="post" action="main_issue_list">
+				{% if last_key %}
+				<button name="next" id="next" type="submit">Next ></button>
+				{% endif %}
+				<input type="hidden" id="db_key" name="db_key" value="{{last_key}}">
+				<input type="hidden" id="status" name="status" value="{{selected_status}}">
+				<input type="hidden" id="project" name="project" value="{{selected_project}}">
+				<input type="hidden" id="discipline" name="discipline" value="{{selected_discipline}}">
+				<input type="hidden" id="sentiment" name="sentiment" value="{{selected_sentiment}}">
+				<input type="hidden" id="document" name="document" value="{{selected_document}}">
+				<input type="hidden" id="filter" name="filter" value="filter">
+			</form>
+		</div>
+		<script>
+			function goBack() {
+    		window.history.back();
+			}
+		</script>
 	</p>
   </article>
 </section>
