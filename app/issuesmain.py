@@ -17,8 +17,9 @@ def render_main_issue_list():
         last_key = parse_string(request.form.get('db_key'))
         first_page = parse_string(request.form.get('first_page'))
         filter = parse_string(request.form.get('filter'))
+        next_b = parse_string(request.form.get('next_b'))
 
-        if (not filter and not first_page) or filter:
+        if not filter and not first_page and not next_b:
             first_page = 'first_page'
 
         if project_input:
