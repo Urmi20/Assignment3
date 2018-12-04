@@ -10,7 +10,7 @@ secret_key = b64encode(key).decode('utf-8')
 
 class DataBaseManager:
     @staticmethod
-    def scan_table(table, key_name, key_value):
+    def scan_filtered_table(table, key_name, key_value):
         response = table.scan(
             FilterExpression=Key(key_name).eq(key_value),
         )
@@ -77,7 +77,7 @@ class DataBaseManager:
 
         table = dynamodb.Table(table_name)
 
-        items = DataBaseManager.scan_table(table, 'email', email)
+        items = DataBaseManager.scan_filtered_table(table, 'email', email)
 
         if not items:
             return False
@@ -120,7 +120,7 @@ class DataBaseManager:
 
         table = dynamodb.Table(table_name)
 
-        response = DataBaseManager.scan_table(table, 'email', email)
+        response = DataBaseManager.scan_filtered_table(table, 'email', email)
 
         item = response['Items']
 
@@ -192,7 +192,7 @@ class DataBaseManager:
 
         table = dynamodb.Table(table_name)
 
-        items = DataBaseManager.scan_table(table, 'project', selected_project)
+        items = DataBaseManager.scan_filtered_table(table, 'project', selected_project)
 
         documents = list()
         for item in items:
