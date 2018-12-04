@@ -21,24 +21,14 @@
 				<form method="post" action="main_issue_list"">
                     Status
 					<select name ="status">
-
-                        <option name="status_all" value="All">All</option>
-						<option name="open" value="Open">Open</option>
-						<option name="closed" value="Closed">Closed</option>
-
                         <option value="All">All</option>
 						<option value="Open" {% if selected_status == 'Open' %} selected="selected" {% endif %}>Open</option>
 						<option value="Closed" {% if selected_status == 'Closed' %} selected="selected" {% endif %}>Closed</option>
-
 					</select>
 
 					Project
 					<select name ="project">
-
-							<option name="project_all">All</option>
-
 							<option value="All">All</option>
-
 						{% for project in projects %}
 							<option value="{{project}}"
 							{% if selected_project == project %} selected="selected" {% endif %}>
@@ -48,11 +38,7 @@
 
             		Discipline
                     <select name="discipline">
-
-							<option name="dis_all">All</option>
-
 							<option value="All">All</option>
-
 						{% for discipline in disciplines %}
 							<option value="{{discipline}}"
 							{% if selected_discipline == discipline %} selected="selected" {% endif %}>
@@ -66,7 +52,6 @@
 						<option value="POSITIVE" {% if selected_sentiment == 'POSITIVE' %} selected="selected" {% endif %}>POSITIVE</option>
 						<option value="NEGATIVE" {% if selected_sentiment == 'NEGATIVE' %} selected="selected" {% endif %}>NEGATIVE</option>
                         <option value="NEUTRAL"  {% if selected_sentiment == 'NEUTRAL'  %} selected="selected" {% endif %}>NEUTRAL</option>
-
 					</select>
 
                     <input type="submit" value="submit">
