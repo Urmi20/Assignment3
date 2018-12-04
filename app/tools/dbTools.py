@@ -10,6 +10,48 @@ secret_key = b64encode(key).decode('utf-8')
 
 class DataBaseManager:
     @staticmethod
+    def scan_table(table, key_name, key_value):
+        response = table.scan(
+            FilterExpression=Key(key_name).eq(key_value),
+        )
+
+        try:
+            items = response['Items']
+        except Exception as exception:
+            items = dict()
+
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(
+                FilterExpression=Key(key_name).eq(key_value),
+                ExclusiveStartKey=response['LastEvaluatedKey']
+            )
+            try:
+                items.extend(response['Items'])
+            except Exception as excetion:
+                continue
+
+        return items
+
+    @staticmethod
+    def scan_table(table):
+        response = table.scan()
+
+        try:
+            items = response['Items']
+        except Exception as exception:
+            items = dict()
+
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+            try:
+                items.extend(response['Items'])
+            except Exception as excetion:
+                continue
+
+        return items
+
+
+    @staticmethod
     def add_user(username, first_name, last_name, email, password):
         dynamodb = boto3.resource('dynamodb')
         table_name = 'it_users'
@@ -35,22 +77,9 @@ class DataBaseManager:
 
         table = dynamodb.Table(table_name)
 
-        response = table.scan(
-            FilterExpression=Key('email').eq(email),
-        )
+        items = DataBaseManager.scan_table(table, 'email', email)
 
-        while 'LastEvaluatedKey' in response:
-            response = table.scan(
-                FilterExpression=Key('email').eq(email),
-                ExclusiveStartKey=response['LastEvaluatedKey']
-            )
-
-        try:
-            item = response['Items']
-        except Exception as exception:
-            item = list()
-
-        if not item:
+        if not items:
             return False
 
         return True
@@ -91,15 +120,7 @@ class DataBaseManager:
 
         table = dynamodb.Table(table_name)
 
-        response = table.scan(
-            FilterExpression=Key('email').eq(email),
-        )
-
-        while 'LastEvaluatedKey' in response:
-            response = table.scan(
-                FilterExpression=Key('email').eq(email),
-                ExclusiveStartKey=response['LastEvaluatedKey']
-            )
+        response = DataBaseManager.scan_table(table, 'email', email)
 
         item = response['Items']
 
@@ -141,17 +162,7 @@ class DataBaseManager:
 
         table = dynamodb.Table(table_name)
 
-        response = table.scan()
-
-        while 'LastEvaluatedKey' in response:
-            response = table.scan(
-                ExclusiveStartKey=response['LastEvaluatedKey']
-            )
-
-        try:
-            items = response['Items']
-        except Exception as exception:
-            items = list()
+        items = DataBaseManager.scan_table(table)
 
         projects = list()
         for item in items:
@@ -181,20 +192,7 @@ class DataBaseManager:
 
         table = dynamodb.Table(table_name)
 
-        response = table.scan(
-            FilterExpression=Key('project').eq(selected_project),
-        )
-
-        while 'LastEvaluatedKey' in response:
-            response = table.scan(
-                FilterExpression=Key('project').eq(selected_project),
-                ExclusiveStartKey=response['LastEvaluatedKey']
-            )
-
-        try:
-            items = response['Items']
-        except Exception as exception:
-            items = list()
+        items = DataBaseManager.scan_table(table, 'project', selected_project)
 
         documents = list()
         for item in items:
@@ -225,17 +223,7 @@ class DataBaseManager:
 
         table = dynamodb.Table(table_name)
 
-        response = table.scan()
-
-        while 'LastEvaluatedKey' in response:
-            response = table.scan(
-                ExclusiveStartKey=response['LastEvaluatedKey']
-            )
-
-        try:
-            items = response['Items']
-        except Exception as exception:
-            items = list()
+        items = DataBaseManager.scan_table(table)
 
         disciplines = list()
         for item in items:
@@ -277,17 +265,7 @@ class DataBaseManager:
 
         table = dynamodb.Table(table_name)
 
-        response = table.scan()
-
-        while 'LastEvaluatedKey' in response:
-            response = table.scan(
-                ExclusiveStartKey=response['LastEvaluatedKey']
-            )
-
-        try:
-            items = response['Items']
-        except Exception as exception:
-            items = list()
+        items = DataBaseManager.scan_table(table)
 
         issues = list()
         for item in items:
