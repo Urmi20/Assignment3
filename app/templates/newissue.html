@@ -21,30 +21,46 @@
 
 Select a project:
 <form method="post" action="new_issue_landing">
-    <input type="text" name="project" list="projects" autocomplete=off onchange="this.form.submit()"
+    <div class="text-input">
+    <input type="text" id="project" name="project" list="projects" autocomplete=off onchange="this.form.submit()"
     {% if selected_project %} value="{{selected_project}}" {% endif %}/>
+        <label for="project">Project</label>
     <datalist id="projects">
         {% for project in projects %}
         <option value="{{project}}">{{project}}</option>
         {% endfor %}
     </datalist>
-    <input type="hidden" id="document" name ="document">
-    <input type="hidden" id="issues_so_far" name ="issues_so_far" value="{{issues_so_far}}">
+    </div>
+        <input type="hidden" id="document" name ="document">
+    </div>
+    <div class="hidden-input">
+        <input type="hidden" id="issues_so_far" name ="issues_so_far" value="{{issues_so_far}}">
+    </div>
     <br/>
 </form>
 
 {% if selected_project %}
 Select a document:
 <form method="post" action="new_issue_landing">
-    <input type="text" name="document" list="documents" autocomplete=off onchange="this.form.submit()"
+    <div class="text-input">
+    <input type="text" id="document" name="document" list="documents" autocomplete=off onchange="this.form.submit()"
     {% if selected_document %} value="{{selected_document}}" {% endif %}/>
+        <label for="document">Document</label>
     <datalist id="documents">
         {% for document in documents %}
         <option value="{{document}}">{{document}}</option>
         {% endfor %}
     </datalist>
-    <input type="hidden" id="project" name="project" value="{{selected_project}}">
+    </div>
+    <div class="hidden-input">
+
+        <input type="hidden" id="project" name="project" value="{{selected_project}}">
+
+    </div>
+    <div class="hidden-input">
     <input type="hidden" id="issues_so_far" name ="issues_so_far" value="{{issues_so_far}}">
+
+    </div>
     <br/>
 </form>
 {% endif %}
@@ -52,8 +68,9 @@ Select a document:
 {% if selected_project and selected_document %}
 Select a discipline:
 <form method="post" action="new_issue_landing">
+
     <select name="discipline" onchange="this.form.submit()">
-        <option disabled selected value> -- Select a discipline -- </option>
+        <option disabled selected value> <b>-- Select a discipline --</b> </option>
         {% for discipline in disciplines %}
         <option value="{{discipline}}" {% if selected_discipline == discipline %} selected="selected" {% endif %}>{{discipline}}</option>
         {% endfor %}
@@ -66,8 +83,8 @@ Select a discipline:
 {% endif %}
 
 {% if selected_project and selected_document and selected_discipline%}
-</br>
-</br>
+<br>
+<br>
 <form method="post" action="new_issue_landing" id="input_issue">
     <textarea rows="5" cols="70" name="issue" placeholder="Enter issue description..." required></textarea>
     <input type="hidden" id="project" name="project" value="{{selected_project}}">
@@ -80,7 +97,7 @@ Select a discipline:
 {% endif %}
 
 {% if issues_so_far %}
-</br>Issues input so far:</br>
+<br>Issues input so far:<br>
 <textarea readonly rows="5" cols="70" name="issues_so_far_text">
 {{issues_so_far}}
 </textarea>
