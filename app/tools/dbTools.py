@@ -58,9 +58,8 @@ class DataBaseManager:
 
         table = dynamodb.Table(table_name)
 
-        result = DataBaseManager.scan_filtered_table(table, 'username', username)
-        if result:
-            return False;
+        if DataBaseManager.check_existing_user_name(username):
+            return False
 
         table.put_item(
             Item={
@@ -73,6 +72,19 @@ class DataBaseManager:
         )
 
         return True
+
+    @staticmethod
+    def check_existing_user_name(username):
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_users'
+
+        table = dynamodb.Table(table_name)
+
+        result = DataBaseManager.scan_filtered_table(table, 'username', username)
+        if result:
+            return True
+        else:
+            return False
 
     @staticmethod
     def email_already_exists(email):
