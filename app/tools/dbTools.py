@@ -58,6 +58,10 @@ class DataBaseManager:
 
         table = dynamodb.Table(table_name)
 
+        result = DataBaseManager.scan_filtered_table(table, 'username', username)
+        if result:
+            return False;
+
         table.put_item(
             Item={
                 'username': username,
