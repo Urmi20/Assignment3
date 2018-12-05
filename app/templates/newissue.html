@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 
-<header>
-  <h2>Project Tracker</h2>
-</header>
-
 <section>
   <nav>
     <ul>
@@ -18,9 +14,9 @@
 {% if not db_success %}
 <span style="color:red;">Something went wrong wile recording the last issue. Please try again.</span><br/><br/>
 {% endif %}
-
-Select a project:
-<form method="post" action="new_issue_landing">
+<h1>New Issue {% for n in range(50)%} &nbsp {% endfor %}</h1>
+<hr>
+<form method="post" action="new_issue_landing" style="float:left;">
     <div class="text-input">
     <input type="text" id="project" name="project" list="projects" autocomplete=off onchange="this.form.submit()"
     {% if selected_project %} value="{{selected_project}}" {% endif %}/>
@@ -40,8 +36,7 @@ Select a project:
 </form>
 
 {% if selected_project %}
-Select a document:
-<form method="post" action="new_issue_landing">
+<form method="post" action="new_issue_landing" style="float:left;">
     <div class="text-input">
     <input type="text" id="document" name="document" list="documents" autocomplete=off onchange="this.form.submit()"
     {% if selected_document %} value="{{selected_document}}" {% endif %} />
@@ -66,7 +61,6 @@ Select a document:
 {% endif %}
 
 {% if selected_project and selected_document %}
-Select a discipline:
 <form method="post" action="new_issue_landing">
 
     <select name="discipline" onchange="this.form.submit()">
@@ -85,7 +79,7 @@ Select a discipline:
 {% if selected_project and selected_document and selected_discipline%}
 <br>
 <br>
-<form method="post" action="new_issue_landing" id="input_issue">
+<form method="post" action="new_issue_landing" id="input_issue" style="float:left;">
     <textarea rows="5" cols="70" name="issue" placeholder="Enter issue description..." required></textarea>
     <input type="hidden" id="project" name="project" value="{{selected_project}}"/>
     <input type="hidden" id="document" name ="document" value="{{selected_document}}"/>
@@ -97,14 +91,11 @@ Select a discipline:
 {% endif %}
 
 {% if issues_so_far %}
-<br>Issues input so far:<br>
-<textarea readonly rows="5" cols="70" name="issues_so_far_text">
+<textarea readonly rows="5" cols="70" name="issues_so_far_text" style="float:left;">
 {{issues_so_far}}
 </textarea>
 {% endif %}
 
 </article>
 </section>
-
-
 {% endblock %}

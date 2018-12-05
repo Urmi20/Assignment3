@@ -2,6 +2,7 @@ from flask import render_template, session, redirect, url_for, request
 from app import IssueTracker
 from app.tools.dbTools import DataBaseManager
 from app.tools.textaiTools import TextAi
+from app.tools.voiceTools import Voice
 import datetime
 import time
 import hashlib
@@ -40,10 +41,12 @@ def new_issue_landing():
             identifier = id_builder.hexdigest()[:5]
 
             sentiment = TextAi.get_sentiment(current_issue).get('Sentiment')
+            voice = Voice.synthesize(current_issue)
 
             db_success = DataBaseManager.add_issue(selected_project, selected_document, selected_discipline,
                                                    current_issue, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                                                   identifier, sentiment)
+                                                   identifier, sentiment, voice)
+
             if db_success:
                 issues_so_far = selected_project + " :: " + selected_document + " :: " + selected_discipline + \
                                 "\n" + current_issue.rstrip() + "\n\n" + issues_so_far
