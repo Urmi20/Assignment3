@@ -97,10 +97,19 @@
 					<input type="hidden" id="sentiment" name="sentiment" value="{{selected_sentiment}}">
 					<input type="hidden" id="document" name="document" value="{{selected_document}}">
                 </form>
+				<form action="{{url_for('export_to_audio')}}" method="post">
+					<button name="audio" id="audio" type="submit">Export to MP3</button>
+					<input type="hidden" id="status" name="status" value="{{selected_status}}">
+					<input type="hidden" id="project" name="project" value="{{selected_project}}">
+					<input type="hidden" id="discipline" name="discipline" value="{{selected_discipline}}">
+					<input type="hidden" id="sentiment" name="sentiment" value="{{selected_sentiment}}">
+					<input type="hidden" id="document" name="document" value="{{selected_document}}">
+				</form>
 			</li>
 	  	{% if not selected_project %}
 		<script>
 		document.getElementById("pdf").disabled = true;
+		document.getElementById("audio").disabled = true;
 		</script>
 		{% endif %}
 		</ul>
@@ -139,6 +148,11 @@
 					</td>
 					<td>
 					{{row[1]}}
+						<br/>
+						<audio controls>
+							<source src="{{row[8]}}" type="audio/mpeg">
+							* Your browser does not support audio *
+						</audio>
 					</td>
 					<td>
 					{{row[6]}}
