@@ -16,7 +16,7 @@
 
 <article>
 {% if not db_success %}
-<span style="color:red;">Something went wrong wile recording the last issue. Please try again.</span><br/></br>
+<span style="color:red;">Something went wrong wile recording the last issue. Please try again.</span><br/><br/>
 {% endif %}
 
 Select a project:
@@ -31,10 +31,10 @@ Select a project:
         {% endfor %}
     </datalist>
     </div>
-        <input type="hidden" id="document" name ="document">
+        <input type="hidden" id="document" name ="document"/>
     </div>
     <div class="hidden-input">
-        <input type="hidden" id="issues_so_far" name ="issues_so_far" value="{{issues_so_far}}">
+        <input type="hidden" id="issues_so_far" name ="issues_so_far" value="{{issues_so_far}}"/>
     </div>
     <br/>
 </form>
@@ -44,7 +44,7 @@ Select a document:
 <form method="post" action="new_issue_landing">
     <div class="text-input">
     <input type="text" id="document" name="document" list="documents" autocomplete=off onchange="this.form.submit()"
-    {% if selected_document %} value="{{selected_document}}" {% endif %}/>
+    {% if selected_document %} value="{{selected_document}}" {% endif %} />
         <label for="document">Document</label>
     <datalist id="documents">
         {% for document in documents %}
@@ -54,7 +54,7 @@ Select a document:
     </div>
     <div class="hidden-input">
 
-        <input type="hidden" id="project" name="project" value="{{selected_project}}">
+        <input type="hidden" id="project" name="project" value="{{selected_project}}"/>
 
     </div>
     <div class="hidden-input">
@@ -75,9 +75,9 @@ Select a discipline:
         <option value="{{discipline}}" {% if selected_discipline == discipline %} selected="selected" {% endif %}>{{discipline}}</option>
         {% endfor %}
     </select>
-    <input type="hidden" id="project" name="project" value="{{selected_project}}">
-    <input type="hidden" id="document" name ="document" value="{{selected_document}}">
-    <input type="hidden" id="issues_so_far" name ="issues_so_far" value="{{issues_so_far}}">
+    <input type="hidden" id="project" name="project" value="{{selected_project}}"/>
+    <input type="hidden" id="document" name ="document" value="{{selected_document}}"/>
+    <input type="hidden" id="issues_so_far" name ="issues_so_far" value="{{issues_so_far}}"/>
     <br/>
 </form>
 {% endif %}
@@ -87,11 +87,11 @@ Select a discipline:
 <br>
 <form method="post" action="new_issue_landing" id="input_issue">
     <textarea rows="5" cols="70" name="issue" placeholder="Enter issue description..." required></textarea>
-    <input type="hidden" id="project" name="project" value="{{selected_project}}">
-    <input type="hidden" id="document" name ="document" value="{{selected_document}}">
-    <input type="hidden" id="discipline" name ="discipline" value="{{selected_discipline}}">
-    <input type="hidden" id="issues_so_far" name ="issues_so_far" value="{{issues_so_far}}">
-    </br>
+    <input type="hidden" id="project" name="project" value="{{selected_project}}"/>
+    <input type="hidden" id="document" name ="document" value="{{selected_document}}"/>
+    <input type="hidden" id="discipline" name ="discipline" value="{{selected_discipline}}"/>
+    <input type="hidden" id="issues_so_far" name ="issues_so_far" value="{{issues_so_far}}"/>
+    <br>
     <input type="submit" class="button" value="Add issue"/>
 </form>
 {% endif %}
@@ -106,12 +106,5 @@ Select a discipline:
 </article>
 </section>
 
-<footer class="footer container-fluid pl-30 pr-30">
-	<div class="row">
-		<div class="col-sm-12">
-  			<p>Clark, Haldar, Joshi</p>
-		</div>
-	</div>
-</footer>
 
 {% endblock %}

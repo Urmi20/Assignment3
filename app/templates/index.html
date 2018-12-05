@@ -1,9 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-	<header>
-  	<h2>Project Tracker</h2>
-	</header>
+	<script type="text/javascript">
 
+	function saveImage(img_data) {
+		console.log("saveImg");
+		var req = $.ajax({
+			url: "http://localhost/test.php",
+			type: "POST",
+			data: {uploadFile: img_data}
+		});
+		req.done(function(data) {
+		console.log(data);
+		});
+
+	}
+	// Code to handle taking the snapshot and displaying it locally -->
+	var img_link = "";
+		function take_snapshot() {
+			// take snapshot and get image data
+	Webcam.snap( function(data_uri) {
+			document.getElementById('my_camera').innerHTML = '<img src="'+data_uri+'"/>';
+				//console.log(data_uri);
+				var image = new Image();
+				image.src = data_uri;
+				saveImage(data_uri);
+		} );
+	}
+	</script>
+	<div style="align-content: center;height: 20px;margin-top: 20px;padding: 20px;">
+		<h2>Project Tracker</h2>
+	</div>
+	<br>
+	<div class="align-center">
 	<form method="post"  action="authenticate_user"> <!-- Redirected to index.py-->  <!-- add action path-->
 
 		<div class="text-input">
@@ -30,5 +58,28 @@
 			<a href="{{url_for('create_user_landing')}}" style="color:black";><b>Sign Up Now</b></a>
 
 	</form>
+	</div>
+	<br>
+	--------------- <b>OR LOGIN Using Facial Detection</b>---------------
+	<br>
+
+		<form onsubmit="">
+			<div id="my_camera"></div>
+				<br />
+				<br />
+				<br />
+				<input type=button class="button" value="Take Snapshot" onClick="take_snapshot()">
+		</form>
+
+		<!-- Configure a few settings and attach camera -->
+		<script language="JavaScript">
+			Webcam.set({
+				width: 320,
+				height: 240,
+				image_format: 'jpeg',
+				jpeg_quality: 90
+			});
+			Webcam.attach( '#my_camera' );
+		</script>
 
 {% endblock %}
