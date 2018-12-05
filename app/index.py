@@ -1,6 +1,7 @@
-from flask import render_template, session, redirect, url_for, request
+from flask import render_template, session, redirect, url_for, request, jsonify
 from app import IssueTracker
 from app.tools.hashTools import Hash
+from app.tools.faceUnlock import FaceUnlock
 
 IssueTracker.secret_key = "SecretUserUI##187782####"
 
@@ -11,6 +12,16 @@ def index():
         return redirect(url_for("render_main_issue_list"))
 
     return render_template("index.html")
+
+
+def create_face_session_for(face, username):
+    print(username)
+    if face and (username is not ""):
+        session['user'] = username
+        session['authorized'] = True
+
+        return True
+    return False
 
 
 def create_session_for(username, password):
@@ -29,6 +40,17 @@ def authenticate_user():
     password = request.form.get('password')
 
     if create_session_for(username, password):
+        return redirect(url_for('render_main_issue_list'))
+
+    return render_template("index.html", error=True, username=username)
+
+
+@IssueTracker.route('/face_unlock', methods=['POST', 'GET'])
+def face_unlock():
+    username = request.form.get('var2')
+    picture = request.form.get('var1')
+
+    if create_face_session_for(1, username):
         return redirect(url_for('render_main_issue_list'))
 
     return render_template("index.html", error=True, username=username)
