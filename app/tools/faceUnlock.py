@@ -1,4 +1,7 @@
 import boto3
+import boto
+from boto.s3.key import Key
+import base64
 
 
 class FaceUnlock:
@@ -26,3 +29,15 @@ class FaceUnlock:
 
         imageSource.close()
         imageTarget.close()
+
+    @staticmethod
+    def upload_s3(data, user):
+        client = boto3.client('s3')
+        buf = data.split(',')[1]
+        print(buf)
+        response = client.put_object(Body=base64.b64decode(buf),
+                                     Bucket='faceunlock',
+                                     ContentEncoding='base64',
+                                     ContentType='image/jpeg',
+                                     Key=user)
+        print(response)
