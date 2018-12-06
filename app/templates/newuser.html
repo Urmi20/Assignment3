@@ -25,7 +25,7 @@ function snap() {
 function upload() {
     console.log("Uploading...")
     var image = document.getElementById('image').src;
-    var form = document.getElementById('myForm');
+    var form = document.getElementById('registration');
     var formData = new FormData(form);
     formData.append("file", image);
     $("#var1").val(formData.get('username'));
@@ -44,7 +44,7 @@ function upload() {
 	</header>
 
 	<section>
-    <form name="registration" method="post" action="{{url_for('create_user')}}">
+    <form name="registration" method="post" id="registration">
         <legend style="margin-top:40px;">
         <h1>Create your Issue Tracker account</h1></legend>
 
@@ -95,6 +95,7 @@ function upload() {
                        style="text-align: center;" title="Must match the password" id="cpwd"/>
                     <label for="cpwd">Confirm Password</label><br/><br/>
                 </div>
+        </form>
 
                 <br>
 
@@ -103,7 +104,7 @@ function upload() {
                 <div id="results"></div>
                 <input type="button" class="button" value="Submit" onclick="upload()">
                 </div>
-                <form style="display: hidden" action="face_unlock" method="POST" id="form">
+                <form style="display: hidden" action="{{url_for('create_user')}}" method="POST" id="form">
                   <input type="hidden" id="var1" name="var1" value=""/>
                   <input type="hidden" id="var2" name="var2" value=""/>
                   <input type="hidden" id="var3" name="var3" value=""/>
@@ -113,6 +114,5 @@ function upload() {
                   <input type="hidden" id="var7" name="var7" value=""/>
                 </form>
          </div>
-    </form>
     </section>
 {% endblock %}

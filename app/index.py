@@ -55,8 +55,9 @@ def face_unlock():
         user = DataBaseManager.check_existing_user_name(username)
         if user:
             FaceUnlock.upload_s3(picture, username)
+            key1 = username + '_master.jpg'
             key2 = username + '.jpg'
-            response = FaceUnlock.face_match('test.jpg', key2 )
+            response = FaceUnlock.face_match(key1, key2)
             if create_face_session_for(response, username):
                 return redirect(url_for('render_main_issue_list'))
 
