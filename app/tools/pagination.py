@@ -652,10 +652,18 @@ class Pagination:
                   status_input=None):
 
         issues = None
-        last_key = True
+        last_key = None
+
+        issues, last_key = Pagination.page_data(last_key, project_input, document_input, discipline_input,
+                                                     sentiment_input, status_input, 5)
 
         while last_key:
-            issues, last_key = Pagination.page_data(issues, project_input, document_input, discipline_input,
-                                                   sentiment_input, status_input, 5)
+            curr_issues, last_key = Pagination.page_data(last_key, project_input, document_input, discipline_input,
+                                                        sentiment_input, status_input, 5)
+            if len(curr_issues) > 0 and len(issues) > 0:
+                issues = nmp.concatenate((issues, curr_issues), axis=0)
+
+            if len(issues) == 0 and len(curr_issues) > 0:
+                issues = curr_issues
 
         return issues
