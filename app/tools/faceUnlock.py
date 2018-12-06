@@ -1,6 +1,4 @@
 import boto3
-import boto
-from boto.s3.key import Key
 import base64
 
 
