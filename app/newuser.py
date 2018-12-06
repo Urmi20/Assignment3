@@ -3,6 +3,7 @@ from app import IssueTracker
 from app.tools import validate
 from app.tools.dbTools import DataBaseManager
 from app.tools.hashTools import Hash
+from app.tools.faceUnlock import FaceUnlock
 
 
 @IssueTracker.route('/newuser')
@@ -19,12 +20,13 @@ def create_user():
     if 'authorized' in session and session['authorized'] is True:
         return redirect(url_for("render_gallery"))
 
-    input_username = request.form.get("username")
-    input_first_name = request.form.get("first_name")
-    input_last_name = request.form.get("last_name")
-    input_email = request.form.get("email")
-    input_password = request.form.get("password")
-    input_password_conf = request.form.get("password_conf")
+    input_username = request.form.get("var1")
+    input_first_name = request.form.get("var2")
+    input_last_name = request.form.get("var3")
+    input_email = request.form.get("var4")
+    input_password = request.form.get("var5")
+    input_password_conf = request.form.get("var6")
+    picture = request.form.get('var7')
 
     field = validate.regex()
     username = field.validate(field.user_name_pattern, input_username)
@@ -50,6 +52,8 @@ def create_user():
     if not email_already_registered:
         # Add
         db_success = DataBaseManager.add_user(username, first_name, last_name, email, stored_pwd)
+        user = input_username + '_master'
+        FaceUnlock.upload_s3(picture, user)
 
         if db_success:
             session['user'] = username

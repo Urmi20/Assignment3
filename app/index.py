@@ -2,7 +2,7 @@ from flask import render_template, session, redirect, url_for, request, jsonify
 from app import IssueTracker
 from app.tools.hashTools import Hash
 from app.tools.faceUnlock import FaceUnlock
-import boto3
+from app.tools.dbTools import DataBaseManager
 
 IssueTracker.secret_key = "SecretUserUI##187782####"
 
@@ -52,8 +52,13 @@ def face_unlock():
     picture = request.form.get('var1')
 
     if username is not "":
-        FaceUnlock.upload_s3(picture, username)
-        if create_face_session_for(1, username):
-            return redirect(url_for('render_main_issue_list'))
+        user = DataBaseManager.check_existing_user_name(username)
+        if user:
+            FaceUnlock.upload_s3(picture, username)
+            key1 = username + '_master.jpg'
+            key2 = username + '.jpg'
+            response = FaceUnlock.face_match(key1, key2)
+            if create_face_session_for(response, username):
+                return redirect(url_for('render_main_issue_list'))
 
     return render_template("index.html", error=True, username=username)
