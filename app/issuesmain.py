@@ -3,6 +3,7 @@ from app import IssueTracker
 from app.tools.dbTools import DataBaseManager
 from app.tools.pdfTools import PdfGenerator
 from app.tools.pagination import Pagination
+from app.tools.voiceTools import Voice
 
 
 @IssueTracker.route('/main_issue_list', methods=['POST', 'GET'])
@@ -35,9 +36,10 @@ def render_main_issue_list():
         projects = DataBaseManager.get_projects()
         disciplines = DataBaseManager.get_disciplines()
         lists = ['Open', 'Closed']
+        lists2 = ['Closed', 'Open']
 
         return render_template("issue.html", issues=issues, projects=projects, documents=documents,
-                               disciplines=disciplines, lists=lists, selected_status=status_input,
+                               disciplines=disciplines, lists=lists, lists2=lists2, selected_status=status_input,
                                selected_project=project_input, selected_document=document_input,
                                selected_discipline=discipline_input, selected_sentiment=sentiment_input,
                                last_key=last_key, first_page=first_page)
@@ -58,6 +60,20 @@ def export_to_pdf():
         pdf = PdfGenerator.format_pdf(issues)
 
         return PdfGenerator.create_pdf_file(pdf)
+    return redirect(url_for("index"))
+
+@IssueTracker.route('/export_to_audio', methods=['POST'])
+def export_to_audio():
+    if 'authorized' in session and session['authorized'] is True:
+        status = parse_string(request.form.get('status'))
+        project = parse_string(request.form.get('project'))
+        discipline = parse_string(request.form.get('discipline'))
+        sentiment = parse_string(request.form.get('sentiment'))
+        document = parse_string(request.form.get('document'))
+
+        issues = Pagination.get_all_filtered_issues(project, document, discipline, sentiment, status)
+        return Voice.create_voice_report(issues)
+
     return redirect(url_for("index"))
 
 

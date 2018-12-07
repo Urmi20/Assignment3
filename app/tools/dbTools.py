@@ -58,6 +58,9 @@ class DataBaseManager:
 
         table = dynamodb.Table(table_name)
 
+        if DataBaseManager.check_existing_user_name(username):
+            return False
+
         table.put_item(
             Item={
                 'username': username,
@@ -69,6 +72,19 @@ class DataBaseManager:
         )
 
         return True
+
+    @staticmethod
+    def check_existing_user_name(username):
+        dynamodb = boto3.resource('dynamodb')
+        table_name = 'it_users'
+
+        table = dynamodb.Table(table_name)
+
+        result = DataBaseManager.scan_filtered_table(table, 'username', username)
+        if result:
+            return True
+        else:
+            return False
 
     @staticmethod
     def email_already_exists(email):
@@ -232,7 +248,7 @@ class DataBaseManager:
         return disciplines
 
     @staticmethod
-    def add_issue(project, document, discipline,issue, date_time, id, sentiment):
+    def add_issue(project, document, discipline,issue, date_time, id, sentiment, voice):
         dynamodb = boto3.resource('dynamodb')
         table_name = 'it_issues'
 
@@ -248,7 +264,8 @@ class DataBaseManager:
                     'date_added': date_time,
                     'discipline': discipline,
                     'description': issue,
-                    'sentiment': sentiment
+                    'sentiment': sentiment,
+                    'voice': voice
                 },
                 ConditionExpression='attribute_not_exists(id)'
             )
