@@ -40,8 +40,9 @@ def authenticate_user():
     username = request.form.get('username')
     password = request.form.get('password')
 
-    if create_session_for(username, password):
-        return redirect(url_for('render_main_issue_list'))
+    if username and password:
+        if create_session_for(username, password):
+            return redirect(url_for('render_main_issue_list'))
 
     return render_template("index.html", error=True, username=username)
 

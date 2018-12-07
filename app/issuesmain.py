@@ -36,9 +36,10 @@ def render_main_issue_list():
         projects = DataBaseManager.get_projects()
         disciplines = DataBaseManager.get_disciplines()
         lists = ['Open', 'Closed']
+        lists2 = ['Closed', 'Open']
 
         return render_template("issue.html", issues=issues, projects=projects, documents=documents,
-                               disciplines=disciplines, lists=lists, selected_status=status_input,
+                               disciplines=disciplines, lists=lists, lists2=lists2, selected_status=status_input,
                                selected_project=project_input, selected_document=document_input,
                                selected_discipline=discipline_input, selected_sentiment=sentiment_input,
                                last_key=last_key, first_page=first_page)

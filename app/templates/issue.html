@@ -157,9 +157,15 @@
 					<td>
                         <form method="post" action="change_issue_status">
                             <select name="status_row" onchange="this.form.submit()">
-                                {% for status in lists %}
+                               {% if row[7] == 'Open' %}
+								{% for status in lists %}
                                 <option value="{{status}}">{{status}}</option>
                                 {% endfor %}
+								{% else %}
+								{% for status in lists2 %}
+                                <option value="{{status}}">{{status}}</option>
+                                {% endfor %}
+								{% endif %}
                             </select>
 							<input type="hidden" id="uid" name="uid" value="{{row[4]}}">
                         </form>
