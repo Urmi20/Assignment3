@@ -28,8 +28,7 @@
 }
 
 input[type="text"] {
-    display: inline-block;
-    width: 500px;
+
     height: 40px;
     box-sizing: border-box;
     outline: none;
@@ -40,8 +39,7 @@ input[type="text"] {
 }
 
 input[type="password"] {
-    display: inline-block;
-    width: 500px;
+
     height: 40px;
     box-sizing: border-box;
     outline: none;
@@ -52,8 +50,7 @@ input[type="password"] {
 }
 
 input[type="hidden"] {
-    display: inline-block;
-    width: 500px;
+
     height: 40px;
     box-sizing: border-box;
     outline: none;
@@ -64,8 +61,7 @@ input[type="hidden"] {
 }
 
 input[type="email"] {
-    display: inline-block;
-    width: 500px;
+
     height: 40px;
     box-sizing: border-box;
     outline: none;
