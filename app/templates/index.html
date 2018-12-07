@@ -19,7 +19,7 @@ function upload() {
 }
 	</script>
 	<header>
-		<h2>Issue Tracker</h2>
+		<h2>Project Tracker</h2>
 	</header>
 
 	<section>
@@ -44,6 +44,7 @@ function upload() {
 							style="text-align: center;" placeholder="Password"/>
 						<label for="password">Password</label>
 						{% if error == True %}
+                            <br>
 							Wrong Username or password<br/><br>
 						{% endif %}
 					</div>
@@ -62,7 +63,8 @@ function upload() {
 
 		</article1>
 		<article2>
-			<b>OR LOGIN Using Facial Detection</b>
+			<b>OR LOGIN Using Facial Detection</b><br>
+            Note : Please Enter User Name and then click Face Unlock
 				<div id="my_camera"></div>
 				<input type="button" class="button" value="Face Unlock" onclick="upload()">
 				<input type="hidden" class="button" value="Login" onclick="upload()" id="results">
