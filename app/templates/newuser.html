@@ -44,6 +44,14 @@ function upload() {
 	</header>
 
 	<section>
+    <nav style="height: auto">
+        <ul>
+			  <li><a href="{{url_for('sign_out')}}">Log In</a></li>
+			  <li><a class="active" href="#home">Sign Up</a></li>
+			  <li><a href="{{url_for('forgotpwd')}}">Forgot Password</a></li>
+        </ul>
+    </nav>
+    <article style="height: auto">
     <form name="registration" method="post" id="registration">
         <legend style="margin-top:40px;">
         <h1>Create your Issue Tracker account</h1></legend>
@@ -103,7 +111,6 @@ function upload() {
                 <input type="button" class="button" value="Take Snapshot" onclick="snap()">
                 <div id="results"></div>
                 <input type="button" class="button" value="Submit" onclick="upload()">
-                </div>
                 <form style="display: hidden" action="{{url_for('create_user')}}" method="POST" id="form">
                   <input type="hidden" id="var1" name="var1" value=""/>
                   <input type="hidden" id="var2" name="var2" value=""/>
@@ -113,6 +120,6 @@ function upload() {
                   <input type="hidden" id="var6" name="var6" value=""/>
                   <input type="hidden" id="var7" name="var7" value=""/>
                 </form>
-         </div>
+    </article>
     </section>
 {% endblock %}

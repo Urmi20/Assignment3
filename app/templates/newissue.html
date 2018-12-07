@@ -14,10 +14,10 @@
 	</ul>
   </nav>
 
-<article>
-{% if not db_success %}
-<span style="color:red;">Something went wrong wile recording the last issue. Please try again.</span><br/></br>
-{% endif %}
+    <article>
+    {% if not db_success %}
+    <span style="color:red;">Something went wrong wile recording the last issue. Please try again.</span><br/></br>
+    {% endif %}
 
 Select a project:
 <form method="post" action="new_issue_landing">
