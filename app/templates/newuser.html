@@ -1,10 +1,57 @@
 {% extends "base.html" %}
 {% block content %}
+<script type="text/javascript">
+
+	function ShowCam() {
+    Webcam.set({
+        width: 320,
+        height: 240,
+        image_format: 'jpeg',
+        jpeg_quality: 100
+    });
+    Webcam.attach('#my_camera');
+}
+window.onload= ShowCam;
+
+function snap() {
+    Webcam.snap( function(data_uri) {
+        // display results in page
+        document.getElementById('results').innerHTML =
+        '<img id="image" src="'+data_uri+'"/>';
+      } );
+}
+
+function upload() {
+    console.log("Uploading...")
+    var image = document.getElementById('image').src;
+    var form = document.getElementById('registration');
+    var formData = new FormData(form);
+    formData.append("file", image);
+    $("#var1").val(formData.get('username'));
+	$("#var2").val(formData.get('first_name'));
+	$("#var3").val(formData.get('last_name'));
+	$("#var4").val(formData.get('email'));
+	$("#var5").val(formData.get('password'));
+	$("#var6").val(formData.get('password_conf'));
+	$("#var7").val(formData.get('file'));
+	$("#form").submit();
+}
+	</script>
+
+
 <header>
   	<h2>Issue Tracker</h2>
-	</header>
+</header>
 
 	<section>
+        <nav>
+			<ul>
+			  <li><a href="{{url_for('sign_out')}}">Log In</a></li>
+			  <li><a class="active"  href="#home">Sign Up</a></li>
+			  <li><a href="{{url_for('forgotpwd')}}">Forgot Password</a></li>
+			</ul>
+		</nav>
+        <article>
     <form name="registration" method="post" action="{{url_for('create_user')}}">
         <legend style="margin-top:40px;">
         <h1>Create your Issue Tracker account</h1></legend>
@@ -59,5 +106,22 @@
              <input type="submit" class="button" value="Submit"/><br/><br/>
          </div>
     </form>
+            <br>
+
+                <div id="my_camera"></div>
+                <input type="button" class="button" value="Take Snapshot" onclick="snap()">
+                <div id="results"></div>
+                <input type="button" class="button" value="Submit" onclick="upload()">
+
+                <form style="display: hidden" action="{{url_for('create_user')}}" method="POST" id="form">
+                  <input type="hidden" id="var1" name="var1" value=""/>
+                  <input type="hidden" id="var2" name="var2" value=""/>
+                  <input type="hidden" id="var3" name="var3" value=""/>
+                  <input type="hidden" id="var4" name="var4" value=""/>
+                  <input type="hidden" id="var5" name="var5" value=""/>
+                  <input type="hidden" id="var6" name="var6" value=""/>
+                  <input type="hidden" id="var7" name="var7" value=""/>
+                </form>
+            </article>
     </section>
 {% endblock %}

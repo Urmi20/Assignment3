@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 <header>
-  <h2>Project Tracker</h2>
+	<h2>Project Tracker</h2>
 </header>
-
 <section>
   <nav>
     <ul>
@@ -18,7 +17,7 @@
     <p>
 			<ul style="list-style: none; padding-left: 0;">
 			<li style="float:left;padding-right: 5px;">
-				<form method="post" action="main_issue_list"">
+				<form method="post" action="main_issue_list">
                     Status
 					<select name ="status">
                         <option value="All">All</option>
@@ -97,10 +96,19 @@
 					<input type="hidden" id="sentiment" name="sentiment" value="{{selected_sentiment}}">
 					<input type="hidden" id="document" name="document" value="{{selected_document}}">
                 </form>
+				<form action="{{url_for('export_to_audio')}}" method="post">
+					<button name="audio" id="audio" type="submit">Export to MP3</button>
+					<input type="hidden" id="status" name="status" value="{{selected_status}}">
+					<input type="hidden" id="project" name="project" value="{{selected_project}}">
+					<input type="hidden" id="discipline" name="discipline" value="{{selected_discipline}}">
+					<input type="hidden" id="sentiment" name="sentiment" value="{{selected_sentiment}}">
+					<input type="hidden" id="document" name="document" value="{{selected_document}}">
+				</form>
 			</li>
 	  	{% if not selected_project %}
 		<script>
 		document.getElementById("pdf").disabled = true;
+		document.getElementById("audio").disabled = true;
 		</script>
 		{% endif %}
 		</ul>
@@ -139,6 +147,11 @@
 					</td>
 					<td>
 					{{row[1]}}
+						<br/>
+						<audio controls>
+							<source src="{{row[8]}}" type="audio/mpeg">
+							* Your browser does not support audio *
+						</audio>
 					</td>
 					<td>
 					{{row[6]}}
@@ -146,9 +159,15 @@
 					<td>
                         <form method="post" action="change_issue_status">
                             <select name="status_row" onchange="this.form.submit()">
-                                {% for status in lists %}
+                               {% if row[7] == 'Open' %}
+								{% for status in lists %}
                                 <option value="{{status}}">{{status}}</option>
                                 {% endfor %}
+								{% else %}
+								{% for status in lists2 %}
+                                <option value="{{status}}">{{status}}</option>
+                                {% endfor %}
+								{% endif %}
                             </select>
 							<input type="hidden" id="uid" name="uid" value="{{row[4]}}">
                         </form>
@@ -187,11 +206,4 @@
   </article>
 </section>
 
-<footer class="footer container-fluid pl-30 pr-30">
-	<div class="row">
-		<div class="col-sm-12">
-  			<p>Clark, Haldar, Joshi</p>
-		</div>
-	</div>
-</footer>
 {% endblock %}

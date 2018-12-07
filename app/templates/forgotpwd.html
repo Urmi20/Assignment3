@@ -5,6 +5,14 @@
 	</header>
 
 	<section>
+        <nav>
+             <ul>
+                <li><a href="{{url_for('sign_out')}}">Log In</a></li>
+			  <li><a href="{{url_for('create_user_landing')}}">Sign Up</a></li>
+			  <li><a class="active"  href="#home">Forgot Password</a></li>
+             </ul>
+        </nav>
+        <article>
     <form method="post" action="recovery_submit" class="container"> <!-- Redirected to index.py-->  <!-- add action path-->
         <legend class="text-center case" style="margin-top:40px;"><h1>Password recovery</h1></legend>
 
@@ -17,6 +25,8 @@
             <input type="submit" class="button" value="Submit"/><br/><br>
 
         </div>
+
     </form>
+            </article>
     </section>
 {% endblock %}
