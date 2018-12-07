@@ -25,6 +25,7 @@ class FaceUnlock:
 
     @staticmethod
     def upload_s3(data, user):
+        print(data)
         client = boto3.client('s3')
         buf = data.split(',')[1]
         print(buf)
