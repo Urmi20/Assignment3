@@ -13,15 +13,16 @@
              </ul>
         </nav>
         <article>
-    <form method="post" action="recovery_submit" class="container"> <!-- Redirected to index.py-->  <!-- add action path-->
-        <legend class="text-center case" style="margin-top:40px;"><h1>Password recovery</h1></legend>
+    <form method="post" action="recovery_submit"> <!-- Redirected to index.py-->  <!-- add action path-->
+        <legend style="margin-top:40px;"><h1>Password recovery</h1></legend>
 
-        <div class="text-center forms container">
-            <label class="fontsize">Your email</label><br/>
-            <input type="text" name="email" class="textbox"/><br/>
+            <div class="text-input center" >
+            <input type="text" id="frgtpwd" name="email"/>
+            <label for="frgtpwd">Your email</label><br/>
             {% if error_value== True %}
                 Email not registered
             {% endif %}<br/><br>
+            </div>
             <input type="submit" class="button" value="Submit"/><br/><br>
 
         </div>
