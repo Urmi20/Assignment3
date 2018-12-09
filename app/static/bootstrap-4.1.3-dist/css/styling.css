@@ -1,20 +1,5 @@
 @import  url(https://fonts.googleapis.com/css?family=Montserrat);
 
-
-.forms{
-    text-align: center;
-}
-
-body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    font-family: Montserrat;
-    background: #313E50;
-}
-
 .text-input {
 
     position: relative;
@@ -40,8 +25,7 @@ body{
 }
 
 input[type="text"] {
-    display: inline-block;
-    width: 500px;
+
     height: 40px;
     box-sizing: border-box;
     outline: none;
@@ -52,8 +36,7 @@ input[type="text"] {
 }
 
 input[type="password"] {
-    display: inline-block;
-    width: 500px;
+
     height: 40px;
     box-sizing: border-box;
     outline: none;
@@ -64,8 +47,7 @@ input[type="password"] {
 }
 
 input[type="hidden"] {
-    display: inline-block;
-    width: 500px;
+
     height: 40px;
     box-sizing: border-box;
     outline: none;
@@ -76,8 +58,7 @@ input[type="hidden"] {
 }
 
 input[type="email"] {
-    display: inline-block;
-    width: 500px;
+
     height: 40px;
     box-sizing: border-box;
     outline: none;

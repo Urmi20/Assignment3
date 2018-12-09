@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 <header>
-  	<h2>Issue Tracker</h2>
-	</header>
-
+<h2>Project Tracker</h2>
+</header>
 	<section>
 
+
+    <div style="background-color: #999999" class="center">
 <form method="post" action="{{ url_for('change_pwd', token=token) }}">
-    <legend class="text-center" style="margin-top:40px;"><h1>Issue Tracker</h1></legend>
 
     {% if session== True %}
     <div class="text-center forms container">
@@ -33,5 +33,6 @@
     </div>
     </div>
     </form>
+    </div>
     </section>
 {% endblock %}

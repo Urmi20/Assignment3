@@ -1,17 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-	<script type="text/javascript">
-
-	function ShowCam() {
-    Webcam.set({
-        width: 320,
-        height: 240,
-        image_format: 'jpeg',
-        jpeg_quality: 100
-    });
-    Webcam.attach('#my_camera');
-}
-window.onload= ShowCam;
+<script type="text/javascript">
 
 function upload() {
 
@@ -29,48 +18,72 @@ function upload() {
 	$("#form").submit();
 }
 	</script>
-	<div style="align-content: center;height: 20px;margin-top: 20px;padding: 20px;">
+	<header>
 		<h2>Project Tracker</h2>
-	</div>
-	<br>
-	<div class="align-center">
-	<form method="post"  action="authenticate_user" id="myForm"> <!-- Redirected to index.py-->  <!-- add action path-->
+	</header>
 
-		<div class="text-input">
-			<input type="text" id="username" name="username" value="{{username if username!=None}}" style="text-align: center;"
-				   placeholder="Username or email"/>
-			<label for="username">Name</label>
-		</div>
-		<br>
-		<div class="pwd-input">
-			<input type="password" id="password" name="password"
-				   style="text-align: center;" placeholder="Password"/>
-			<label for="password">Password</label>
-			{% if error == True %}
-				Wrong Username or password<br/><br>
-			{% endif %}
-		</div>
-		<br>
-			<a href="{{url_for('forgotpwd')}}" style="color:black;">Forgot your password?</a>
-			<input type="submit" class="button" style="vertical-align:middle;" value="Sign in"/>
-		<br>
-		<br>
+	<section>
+		<nav>
+			<ul>
+			  <li><a class="active" href="#home">Log In</a></li>
+			  <li><a href="{{url_for('create_user_landing')}}">Sign Up</a></li>
+			  <li><a href="{{url_for('forgotpwd')}}">Forgot Password</a></li>
+			</ul>
+		</nav>
 
-			<label>New User?</label>
-			<a href="{{url_for('create_user_landing')}}" style="color:black";><b>Sign Up Now</b></a>
+		<article1>
+					<form method="post"  action="authenticate_user" id="myForm"> <!-- Redirected to index.py-->  <!-- add action path-->
 
-	</form>
-	<br>
-	--------------- <b>OR LOGIN Using Facial Detection</b>---------------
-	<br>
+					<div class="text-input">
+						<input type="text" id="username" name="username" value="{{username if username!=None}}" style="text-align: center;"
+							placeholder="Username or email"/>
+						<label for="username">Name</label>
+					</div>
+					<div class="pwd-input">
+						<input type="password" id="password" name="password"
+							style="text-align: center;" placeholder="Password"/>
+						<label for="password">Password</label>
+						{% if error == True %}
+                            <br>
+							Wrong Username or password<br/><br>
+						{% endif %}
+					</div>
+					<br>
 
-	<div id="my_camera"></div>
-    <input type="button" class="button" value="Face Unlock" onclick="upload()">
-	<input type="hidden" class="button" value="Login" onclick="upload()" id="results">
-	</div>
-<form style="display: hidden" action="face_unlock" method="POST" id="form">
-  <input type="hidden" id="var1" name="var1" value=""/>
-  <input type="hidden" id="var2" name="var2" value=""/>
-</form>
+					<a href="{{url_for('forgotpwd')}}" style="color:black;">Forgot your password?</a>
 
+					<input type="submit" class="button" value="Sign in"/>
+					<br>
+					<br>
+
+					<label>New User?</label>
+					<a href="{{url_for('create_user_landing')}}" style="color:black;"><b>Sign Up Now</b></a>
+
+				</form>
+
+		</article1>
+		<article2>
+			<b>OR LOGIN Using Facial Detection</b><br>
+            Note : Please Enter User Name and then click Face Unlock
+				<div id="my_camera"></div>
+				<input type="button" class="button" value="Face Unlock" onclick="upload()">
+				<input type="hidden" class="button" value="Login" onclick="upload()" id="results">
+			<form style="display: hidden;" action="face_unlock" method="POST" id="form">
+			  <input type="hidden" id="var1" name="var1" value=""/>
+			  <input type="hidden" id="var2" name="var2" value=""/>
+			</form>
+
+
+			</article2>
+
+	</section>
+			<script type="text/javascript">
+				Webcam.set({
+				width: 320,
+				height: 240,
+				image_format: 'jpeg',
+				jpeg_quality: 100
+			});
+			Webcam.attach('#my_camera');
+			</script>
 {% endblock %}

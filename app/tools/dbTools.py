@@ -138,10 +138,8 @@ class DataBaseManager:
 
         response = DataBaseManager.scan_filtered_table(table, 'email', email)
 
-        item = response['Items']
-
-        if item:
-            username = item[0].get('username')
+        if response:
+            username = response[0].get('username')
 
             table.update_item(
                 Key={
