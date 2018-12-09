@@ -308,14 +308,16 @@ class Pagination:
                   discipline_input is None and
                   sentiment_input is None and
                   status_input is None):
-                scan_generator = table.scan(FilterExpression=Attr("project").eq(project_input), ExclusiveStartKey=esk, Limit=limit)
+                scan_generator = table.scan(FilterExpression=Attr("project").eq(project_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is None and
                   document_input is not None and
                   discipline_input is None and
                   sentiment_input is None and
                   status_input is None):
-                scan_generator = table.scan(FilterExpression=Attr("document").eq(document_input), ExclusiveStartKey=esk, Limit=limit)
+                scan_generator = table.scan(FilterExpression=Attr("document").eq(document_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is None and
                   document_input is None and
@@ -338,7 +340,8 @@ class Pagination:
                   discipline_input is None and
                   sentiment_input is None and
                   status_input is not None):
-                scan_generator = table.scan(FilterExpression=Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                scan_generator = table.scan(FilterExpression=Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is not None and
                   document_input is not None and
@@ -346,7 +349,8 @@ class Pagination:
                   sentiment_input is None and
                   status_input is None):
                 scan_generator = table.scan(FilterExpression=Attr("project").eq(project_input) &
-                                                             Attr("document").eq(document_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("document").eq(document_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is not None and
                   document_input is None and
@@ -372,7 +376,8 @@ class Pagination:
                   sentiment_input is None and
                   status_input is not None):
                 scan_generator = table.scan(FilterExpression=Attr("project").eq(project_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is None and
                   document_input is not None and
@@ -398,7 +403,8 @@ class Pagination:
                   sentiment_input is None and
                   status_input is not None):
                 scan_generator = table.scan(FilterExpression=Attr("document").eq(document_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is None and
                   document_input is None and
@@ -415,7 +421,8 @@ class Pagination:
                   sentiment_input is None and
                   status_input is not None):
                 scan_generator = table.scan(FilterExpression=Attr("discipline").eq(discipline_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is None and
                   document_input is None and
@@ -423,7 +430,8 @@ class Pagination:
                   sentiment_input is not None and
                   status_input is not None):
                 scan_generator = table.scan(FilterExpression=Attr("sentiment").eq(sentiment_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is not None and
                   document_input is not None and
@@ -452,7 +460,8 @@ class Pagination:
                   status_input is not None):
                 scan_generator = table.scan(FilterExpression=Attr("project").eq(project_input) &
                                                              Attr("document").eq(document_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is not None and
                   document_input is None and
@@ -471,7 +480,8 @@ class Pagination:
                   status_input is not None):
                 scan_generator = table.scan(FilterExpression=Attr("project").eq(project_input) &
                                                              Attr("discipline").eq(discipline_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is not None and
                   document_input is None and
@@ -480,7 +490,8 @@ class Pagination:
                   status_input is not None):
                 scan_generator = table.scan(FilterExpression=Attr("project").eq(project_input) &
                                                              Attr("sentiment").eq(sentiment_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is None and
                   document_input is not None and
@@ -499,7 +510,8 @@ class Pagination:
                   status_input is not None):
                 scan_generator = table.scan(FilterExpression=Attr("document").eq(document_input) &
                                                              Attr("discipline").eq(discipline_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is None and
                   document_input is not None and
@@ -508,7 +520,8 @@ class Pagination:
                   status_input is not None):
                 scan_generator = table.scan(FilterExpression=Attr("document").eq(document_input) &
                                                              Attr("sentiment").eq(sentiment_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is None and
                   document_input is None and
@@ -517,7 +530,8 @@ class Pagination:
                   status_input is not None):
                 scan_generator = table.scan(FilterExpression=Attr("discipline").eq(discipline_input) &
                                                              Attr("sentiment").eq(sentiment_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is not None and
                   document_input is not None and
@@ -538,7 +552,8 @@ class Pagination:
                 scan_generator = table.scan(FilterExpression=Attr("project").eq(project_input) &
                                                              Attr("document").eq(document_input) &
                                                              Attr("discipline").eq(discipline_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is not None and
                   document_input is not None and
@@ -548,7 +563,8 @@ class Pagination:
                 scan_generator = table.scan(FilterExpression=Attr("project").eq(project_input) &
                                                              Attr("document").eq(document_input) &
                                                              Attr("sentiment").eq(sentiment_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is not None and
                   document_input is None and
@@ -558,7 +574,8 @@ class Pagination:
                 scan_generator = table.scan(FilterExpression=Attr("project").eq(project_input) &
                                                              Attr("discipline").eq(discipline_input) &
                                                              Attr("sentiment").eq(sentiment_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is None and
                   document_input is not None and
@@ -568,7 +585,8 @@ class Pagination:
                 scan_generator = table.scan(FilterExpression=Attr("document").eq(document_input) &
                                                              Attr("discipline").eq(discipline_input) &
                                                              Attr("sentiment").eq(sentiment_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
 
             elif (project_input is not None and
                   document_input is not None and
@@ -579,7 +597,8 @@ class Pagination:
                                                              Attr("document").eq(document_input) &
                                                              Attr("discipline").eq(discipline_input) &
                                                              Attr("sentiment").eq(sentiment_input) &
-                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk, Limit=limit)
+                                                             Attr("status").eq(status_input), ExclusiveStartKey=esk,
+                                            Limit=limit)
         last_evaluated_key = scan_generator.get('LastEvaluatedKey')
         issues_dict = scan_generator.get('Items')
         issue = pnd.DataFrame(issues_dict)
@@ -588,13 +607,13 @@ class Pagination:
 
     @staticmethod
     def data(esk=None,
-                  project_input=None,
-                  document_input=None,
-                  discipline_input=None,
-                  sentiment_input=None,
-                  status_input=None,
-                  final_arr=[],
-                   limit=5):
+             project_input=None,
+             document_input=None,
+             discipline_input=None,
+             sentiment_input=None,
+             status_input=None,
+             final_arr=[],
+             limit=5):
 
         issues, last_evaluated_key = Pagination.scan_page(esk,
                                                           project_input,
@@ -622,44 +641,43 @@ class Pagination:
 
         last_evaluated_key = esk
 
-
         issues, last_evaluated_key = Pagination.scan_page(last_evaluated_key,
-                                                              project_input,
-                                                              document_input,
-                                                              discipline_input,
-                                                              sentiment_input,
-                                                              status_input,
-                                                              limit)
-
-        while len(issues) < limit and last_evaluated_key is not None:
-            issues, last_evaluated_key = Pagination.data(last_evaluated_key,
                                                           project_input,
                                                           document_input,
                                                           discipline_input,
                                                           sentiment_input,
                                                           status_input,
-                                                          issues,
                                                           limit)
+
+        while len(issues) < limit and last_evaluated_key is not None:
+            issues, last_evaluated_key = Pagination.data(last_evaluated_key,
+                                                         project_input,
+                                                         document_input,
+                                                         discipline_input,
+                                                         sentiment_input,
+                                                         status_input,
+                                                         issues,
+                                                         limit)
 
         return issues, last_evaluated_key
 
     @staticmethod
     def get_all_filtered_issues(
-                  project_input=None,
-                  document_input=None,
-                  discipline_input=None,
-                  sentiment_input=None,
-                  status_input=None):
+            project_input=None,
+            document_input=None,
+            discipline_input=None,
+            sentiment_input=None,
+            status_input=None):
 
         issues = None
         last_key = None
 
         issues, last_key = Pagination.page_data(last_key, project_input, document_input, discipline_input,
-                                                     sentiment_input, status_input, 5)
+                                                sentiment_input, status_input, 5)
 
         while last_key:
             curr_issues, last_key = Pagination.page_data(last_key, project_input, document_input, discipline_input,
-                                                        sentiment_input, status_input, 5)
+                                                         sentiment_input, status_input, 5)
             if len(curr_issues) > 0 and len(issues) > 0:
                 issues = nmp.concatenate((issues, curr_issues), axis=0)
 
