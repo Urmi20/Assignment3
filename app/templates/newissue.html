@@ -60,7 +60,6 @@
 </form>
 {% endif %}
 <br/>
-<br/>
 
 {% if selected_project and selected_document %}
 <form method="post" action="new_issue_landing">
@@ -86,7 +85,7 @@
 
 {% if selected_project and selected_document and selected_discipline%}
 <form method="post" action="new_issue_landing" id="input_issue">
-    <textarea rows="5" cols="70" name="issue" placeholder="Enter issue description..." required></textarea>
+    <textarea rows="3" cols="70" name="issue" placeholder="Enter issue description..." required></textarea>
     <input type="hidden" id="project" name="project" value="{{selected_project}}"/>
     <input type="hidden" id="document" name ="document" value="{{selected_document}}"/>
     <input type="hidden" id="discipline" name ="discipline" value="{{selected_discipline}}"/>
@@ -97,7 +96,7 @@
 {% endif %}
 
 {% if issues_so_far %}
-<textarea readonly rows="5" cols="70" name="issues_so_far_text">
+<textarea readonly rows="3" cols="70" name="issues_so_far_text">
 {{issues_so_far}}
 </textarea>
 {% endif %}
