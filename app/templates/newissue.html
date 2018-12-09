@@ -15,6 +15,7 @@
   </nav>
 
     <article>
+    <div style="float: left">
     {% if not db_success %}
     <span style="color:red;">Something went wrong wile recording the last issue. Please try again.</span><br/></br>
     {% endif %}
@@ -48,6 +49,7 @@ Select a project:
         {% endfor %}
     </datalist>
     </div>
+
     <div class="hidden-input">
 
         <input type="hidden" id="project" name="project" value="{{selected_project}}"/>
@@ -60,27 +62,40 @@ Select a project:
     <br/>
 </form>
 {% endif %}
+<br/>
+<br/>
+<br/>
+    <br/>
+    <br/>
+    <br/>
 
 {% if selected_project and selected_document %}
 <form method="post" action="new_issue_landing">
 
-    <select name="discipline" onchange="this.form.submit()">
+    <select name="discipline" id="discipline" onchange="this.form.submit()">
         <option disabled selected value> <b>-- Select a discipline --</b> </option>
         {% for discipline in disciplines %}
         <option value="{{discipline}}" {% if selected_discipline == discipline %} selected="selected" {% endif %}>{{discipline}}</option>
         {% endfor %}
     </select>
-    <input type="hidden" id="project" name="project" value="{{selected_project}}"/>
-    <input type="hidden" id="document" name ="document" value="{{selected_document}}"/>
-    <input type="hidden" id="issues_so_far" name ="issues_so_far" value="{{issues_so_far}}"/>
+    <label for="discipline">Discipline</label>
+    <div class="hidden-input">
+    <input type="hidden" id="project" name="project" value="{{selected_project}}">
+    </div>
+    <div class="hidden-input">
+    <input type="hidden" id="document" name ="document" value="{{selected_document}}">
+    </div>
+    <div class="hidden-input">
+    <input type="hidden" id="issues_so_far" name ="issues_so_far" value="{{issues_so_far}}">
+        </div>
     <br/>
 </form>
 {% endif %}
 
 {% if selected_project and selected_document and selected_discipline%}
-<br>
-<br>
-<form method="post" action="new_issue_landing" id="input_issue" style="float:left;">
+<br/>
+<br/>
+<form method="post" action="new_issue_landing" id="input_issue">
     <textarea rows="5" cols="70" name="issue" placeholder="Enter issue description..." required></textarea>
     <input type="hidden" id="project" name="project" value="{{selected_project}}"/>
     <input type="hidden" id="document" name ="document" value="{{selected_document}}"/>
@@ -92,11 +107,11 @@ Select a project:
 {% endif %}
 
 {% if issues_so_far %}
-<textarea readonly rows="5" cols="70" name="issues_so_far_text" style="float:left;">
+<textarea readonly rows="5" cols="70" name="issues_so_far_text">
 {{issues_so_far}}
 </textarea>
 {% endif %}
-
+</div>
 </article>
 </section>
 
