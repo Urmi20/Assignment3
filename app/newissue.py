@@ -45,7 +45,7 @@ def new_issue_landing():
 
             db_success = DataBaseManager.add_issue(selected_project, selected_document, selected_discipline,
                                                    current_issue, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                                                   identifier, sentiment, voice)
+                                                   identifier, sentiment, voice, session['user'])
 
             if db_success:
                 issues_so_far = selected_project + " :: " + selected_document + " :: " + selected_discipline + \
