@@ -20,7 +20,7 @@
     <span style="color:red;">Something went wrong wile recording the last issue. Please try again.</span><br/></br>
     {% endif %}
 
-<form method="post" action="new_issue_landing">
+<form method="post" action="{{url_for('new_issue_landing')}}">
     <div class="text-input">
     <input type="text" id="project" name="project" list="projects" autocomplete=off onchange="this.form.submit()"
     {% if selected_project %} value="{{selected_project}}" {% endif %}/>
@@ -36,7 +36,7 @@
 </form>
 
 {% if selected_project %}
-<form method="post" action="new_issue_landing" style="float:left;">
+<form method="post" action="{{url_for('new_issue_landing')}}" style="float:left;">
     <div class="text-input">
     <input type="text" id="document" name="document" list="documents" autocomplete=off onchange="this.form.submit()"
     {% if selected_document %} value="{{selected_document}}" {% endif %} />
@@ -62,7 +62,7 @@
 <br/>
 
 {% if selected_project and selected_document %}
-<form method="post" action="new_issue_landing">
+<form method="post" action="{{url_for('new_issue_landing')}}">
 
     <select name="discipline" id="discipline" onchange="this.form.submit()">
         <option disabled selected value> <b>-- Select a discipline --</b> </option>
@@ -84,7 +84,7 @@
 {% endif %}
 
 {% if selected_project and selected_document and selected_discipline%}
-<form method="post" action="new_issue_landing" id="input_issue">
+<form method="post" action="{{url_for('new_issue_landing')}}" id="input_issue">
     <textarea rows="3" cols="70" name="issue" placeholder="Enter issue description..." required></textarea>
     <input type="hidden" id="project" name="project" value="{{selected_project}}"/>
     <input type="hidden" id="document" name ="document" value="{{selected_document}}"/>
