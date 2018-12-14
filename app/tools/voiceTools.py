@@ -32,14 +32,14 @@ class Voice:
 
     @staticmethod
     def create_voice_report(data):
-        date_time = 0
-        issue = 1
-        discipline = 2
-        document = 3
-        uid = 4
-        project = 5
-        sentiment = 6
-        status = 7
+        date_time = 1
+        issue = 2
+        discipline = 3
+        document = 4
+        uid = 5
+        project = 6
+        sentiment = 7
+        status = 8
 
         voice_text = '<speak>'
 
