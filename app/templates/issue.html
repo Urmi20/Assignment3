@@ -17,7 +17,7 @@
     <p>
 			<ul style="list-style: none; padding-left: 0;">
 			<li style="float:left;padding-right: 5px;">
-				<form method="post" action="main_issue_list">
+				<form method="post" action="{{url_for('render_main_issue_list')}}">
                     Status
 					<select name ="status">
                         <option value="All">All</option>
@@ -59,7 +59,7 @@
 				</form>
 
 			{% if documents %}
-				<form method="post" action="main_issue_list">
+				<form method="post" action="{{url_for('render_main_issue_list')}}">
 					Document
 					<select name="document" onchange="this.form.submit()">
 						{% if selected_document %}
@@ -160,7 +160,7 @@
 					{{row[7]}}
 					</td>
 					<td>
-                        <form method="post" action="change_issue_status">
+                        <form method="post" action="{{url_for('change_issue_status')}}">
                             <select name="status_row" onchange="this.form.submit()">
                                {% if row[8] == 'Open' %}
 								{% for status in lists %}
@@ -186,7 +186,7 @@
 				{% endif %}
 			</div>
 			<div style="float: right; width: 58px">
-				<form method="post" action="main_issue_list">
+				<form method="post" action="{{url_for('render_main_issue_list')}}">
 					{% if last_key %}
 					<button name="next" id="next" type="submit">Next ></button>
 					{% endif %}
